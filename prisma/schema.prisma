@@ -14,61 +14,98 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
+model Pasien {
+  id             String  @id @default(cuid())
+  email          String  @unique
+  password       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  nama           String
+  nik            Int
+  tanggalLahir   DateTime
+  fotoProfil     String?
+  golonganDarah  String
+  riwayats       Riwayat[]
 }
 
-// Necessary for Next auth
-model Account {
-    id                       String  @id @default(cuid())
-    userId                   String
-    type                     String
-    provider                 String
-    providerAccountId        String
-    refresh_token            String? // @db.Text
-    access_token             String? // @db.Text
-    expires_at               Int?
-    token_type               String?
-    scope                    String?
-    id_token                 String? // @db.Text
-    session_state            String?
-    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    refresh_token_expires_in Int?
-
-    @@unique([provider, providerAccountId])
+model Nakes {
+  id         String  @id @default(cuid())
+  email      String  @unique
+  faskesId   String
+  faskes     Faskes  @relation(fields: [faskesId], references: [id])
+  nama       String
+  nip        Int
+  fotoProfil String?
+  kontak     Int
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Faskes {
+  id         String  @id @default(cuid())
+  namaFaskes String
+  alamat     String?
+  nakes      Nakes[]
 }
 
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
-}
+model Riwayat {
+  id                         String    @id @default(cuid())
+  pasienId                   String
+  pasien                     Pasien    @relation(fields: [pasienId], references: [id])
+  createdAt                  DateTime  @default(now())
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
-
-    @@unique([identifier, token])
+  anamnesis                  String?
+  beratBadan                 Float?
+  tinggiBadan                Float?
+  tekananDarahSistole        Float?
+  tekananDarahDiastole       Float?
+  tinggiFundusUteri          Float?
+  n                          String?
+  lingkarLenganAtas          Float?
+  statusGizi                 String?  // Dropdown: Under, Normal, Over
+  refleksPatella             String?  // Dropdown: +, -
+  denyutJantungJanin         Float?
+  kepalaTerhadapPAP          Float?
+  taksiranBeratJanin         Float?
+  presentasi                 String?
+  injeksiTT                  Float?
+  catatDiBukuKIA             String?  // Dropdown: Ya, Tidak
+  fe                         Float?
+  hemoglobin                 Float?
+  proteinUrine               Float?
+  gulaDarah                  Float?
+  talasemia                  String?  // Dropdown: -, Positif, Negatif
+  sifilis                    String?  // Dropdown: -, Positif, Negatif
+  hbsAg                      String?  // Dropdown: -, Positif, Negatif
+  ibuHamilDenganHIV          String?  // Dropdown: -, Ya, Tidak
+  ibuHamilDitawarkanTes      String?  // Dropdown: Ya, Tidak
+  ibuHamilDitesHIV           String?  // Dropdown: Ya, Tidak
+  hasilTesHIV                String?  // Dropdown: -, Positif, Negatif
+  ibuHamilMendapatART        String?  // Dropdown: Ya, Tidak
+  rdtDarah                   String?
+  mikroskopisDarah           String?
+  ibuHamilDiperiksaDahak     String?  // Dropdown: Ya, Tidak
+  ibuHamilHasil              String?
+  persalinanPervaginam       String?  // Dropdown: Ya, Tidak
+  persalinanPerabdominam     String?  // Dropdown: Ya, Tidak
+  ibuHamilDiperiksaKelambu   String?  // Dropdown: Ya, Tidak
+  ibuHamilMendapatKinaACT    String?  // Dropdown: Ya, Tidak
+  rdtMalaria                 String?
+  mikroskopisMalaria         String?
+  ibuHamilDiperiksaAnkilostoma String? // Dropdown: Ya, Tidak
+  ibuHamilHasilTesAnkilostoma  String?  // Dropdown: -, Positif, Negatif
+  ibuHamilDiperiksaHepatitis String?  // Dropdown: Ya, Tidak
+  ibuHamilHasilTesHepatitis  String?  // Dropdown: -, Positif, Negatif
+  puskesmas                  String?
+  rumahBersalin              String?
+  rsiaRsb                    String?
+  rumahSakit                 String?
+  lainLain                   String?
+  keadaanTiba                String?
+  keadaanPulang              String?
+  statusImunisasi            String?  // Dropdown: T1, T2, T3, T4, T5
+  konseling                  String?  // Dropdown: Ya, Tidak
+  risikoTerdeteksiOleh       String?
+  komplikasi                 String?
+  tanggalMenstruasiTerakhir  DateTime?
+  tanggalPerkiraanLahir      DateTime?
+  tanggalKontrolKembali      DateTime?
 }
