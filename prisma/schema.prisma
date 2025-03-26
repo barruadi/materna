@@ -1,42 +1,36 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Pasien {
-  id             String  @id @default(cuid())
-  email          String  @unique
-  password       String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  nama           String
-  nik            Int
-  tanggalLahir   DateTime
-  fotoProfil     String?
-  golonganDarah  String
-  riwayats       Riwayat[]
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  nama          String
+  nik           Int
+  tanggalLahir  DateTime
+  fotoProfil    String?
+  golonganDarah String
+  riwayats      Riwayat[]
 }
 
 model Nakes {
   id         String  @id @default(cuid())
   email      String  @unique
   faskesId   String
-  faskes     Faskes  @relation(fields: [faskesId], references: [id])
   nama       String
   nip        Int
   fotoProfil String?
   kontak     Int
+  faskes     Faskes  @relation(fields: [faskesId], references: [id])
 }
 
 model Faskes {
@@ -47,65 +41,64 @@ model Faskes {
 }
 
 model Riwayat {
-  id                         String    @id @default(cuid())
-  pasienId                   String
-  pasien                     Pasien    @relation(fields: [pasienId], references: [id])
-  createdAt                  DateTime  @default(now())
-
-  anamnesis                  String?
-  beratBadan                 Float?
-  tinggiBadan                Float?
-  tekananDarahSistole        Float?
-  tekananDarahDiastole       Float?
-  tinggiFundusUteri          Float?
-  n                          String?
-  lingkarLenganAtas          Float?
-  statusGizi                 String?  // Dropdown: Under, Normal, Over
-  refleksPatella             String?  // Dropdown: +, -
-  denyutJantungJanin         Float?
-  kepalaTerhadapPAP          Float?
-  taksiranBeratJanin         Float?
-  presentasi                 String?
-  injeksiTT                  Float?
-  catatDiBukuKIA             String?  // Dropdown: Ya, Tidak
-  fe                         Float?
-  hemoglobin                 Float?
-  proteinUrine               Float?
-  gulaDarah                  Float?
-  talasemia                  String?  // Dropdown: -, Positif, Negatif
-  sifilis                    String?  // Dropdown: -, Positif, Negatif
-  hbsAg                      String?  // Dropdown: -, Positif, Negatif
-  ibuHamilDenganHIV          String?  // Dropdown: -, Ya, Tidak
-  ibuHamilDitawarkanTes      String?  // Dropdown: Ya, Tidak
-  ibuHamilDitesHIV           String?  // Dropdown: Ya, Tidak
-  hasilTesHIV                String?  // Dropdown: -, Positif, Negatif
-  ibuHamilMendapatART        String?  // Dropdown: Ya, Tidak
-  rdtDarah                   String?
-  mikroskopisDarah           String?
-  ibuHamilDiperiksaDahak     String?  // Dropdown: Ya, Tidak
-  ibuHamilHasil              String?
-  persalinanPervaginam       String?  // Dropdown: Ya, Tidak
-  persalinanPerabdominam     String?  // Dropdown: Ya, Tidak
-  ibuHamilDiperiksaKelambu   String?  // Dropdown: Ya, Tidak
-  ibuHamilMendapatKinaACT    String?  // Dropdown: Ya, Tidak
-  rdtMalaria                 String?
-  mikroskopisMalaria         String?
-  ibuHamilDiperiksaAnkilostoma String? // Dropdown: Ya, Tidak
-  ibuHamilHasilTesAnkilostoma  String?  // Dropdown: -, Positif, Negatif
-  ibuHamilDiperiksaHepatitis String?  // Dropdown: Ya, Tidak
-  ibuHamilHasilTesHepatitis  String?  // Dropdown: -, Positif, Negatif
-  puskesmas                  String?
-  rumahBersalin              String?
-  rsiaRsb                    String?
-  rumahSakit                 String?
-  lainLain                   String?
-  keadaanTiba                String?
-  keadaanPulang              String?
-  statusImunisasi            String?  // Dropdown: T1, T2, T3, T4, T5
-  konseling                  String?  // Dropdown: Ya, Tidak
-  risikoTerdeteksiOleh       String?
-  komplikasi                 String?
-  tanggalMenstruasiTerakhir  DateTime?
-  tanggalPerkiraanLahir      DateTime?
-  tanggalKontrolKembali      DateTime?
+  id                           String    @id @default(cuid())
+  pasienId                     String
+  createdAt                    DateTime  @default(now())
+  anamnesis                    String?
+  beratBadan                   Float?
+  tinggiBadan                  Float?
+  tekananDarahSistole          Float?
+  tekananDarahDiastole         Float?
+  tinggiFundusUteri            Float?
+  n                            String?
+  lingkarLenganAtas            Float?
+  statusGizi                   String?
+  refleksPatella               String?
+  denyutJantungJanin           Float?
+  kepalaTerhadapPAP            Float?
+  taksiranBeratJanin           Float?
+  presentasi                   String?
+  injeksiTT                    Float?
+  catatDiBukuKIA               String?
+  fe                           Float?
+  hemoglobin                   Float?
+  proteinUrine                 Float?
+  gulaDarah                    Float?
+  talasemia                    String?
+  sifilis                      String?
+  hbsAg                        String?
+  ibuHamilDenganHIV            String?
+  ibuHamilDitawarkanTes        String?
+  ibuHamilDitesHIV             String?
+  hasilTesHIV                  String?
+  ibuHamilMendapatART          String?
+  rdtDarah                     String?
+  mikroskopisDarah             String?
+  ibuHamilDiperiksaDahak       String?
+  ibuHamilHasil                String?
+  persalinanPervaginam         String?
+  persalinanPerabdominam       String?
+  ibuHamilDiperiksaKelambu     String?
+  ibuHamilMendapatKinaACT      String?
+  rdtMalaria                   String?
+  mikroskopisMalaria           String?
+  ibuHamilDiperiksaAnkilostoma String?
+  ibuHamilHasilTesAnkilostoma  String?
+  ibuHamilDiperiksaHepatitis   String?
+  ibuHamilHasilTesHepatitis    String?
+  puskesmas                    String?
+  rumahBersalin                String?
+  rsiaRsb                      String?
+  rumahSakit                   String?
+  lainLain                     String?
+  keadaanTiba                  String?
+  keadaanPulang                String?
+  statusImunisasi              String?
+  konseling                    String?
+  risikoTerdeteksiOleh         String?
+  komplikasi                   String?
+  tanggalMenstruasiTerakhir    DateTime?
+  tanggalPerkiraanLahir        DateTime?
+  tanggalKontrolKembali        DateTime?
+  pasien                       Pasien    @relation(fields: [pasienId], references: [id])
 }
