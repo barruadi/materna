@@ -8,97 +8,197 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Pasien {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  password      String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  nama          String
-  nik           Int
-  tanggalLahir  DateTime
-  fotoProfil    String?
-  golonganDarah String
-  riwayats      Riwayat[]
+enum StatusResiko {
+  RENDAH
+  SEDANG
+  TINGGI
 }
+
+model Pasien {
+    //------------- Atribut Default -------------
+    id            String          @id @default(cuid())
+    email         String          @unique
+    nama          String
+    password      String                              // Hashed Password
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+
+    //------------- Atribut Pasien -------------
+    nik           Int
+    tanggalLahir  DateTime
+    fotoProfil    String?
+    golonganDarah String
+    kontak        Int
+    statusResiko  StatusResiko    @default(RENDAH)
+    riwayat       Riwayat[]
+
+    //------------- Keterangan Suami -------------
+    suamiNama     String?
+    suamiKontak   Int?
+}
+
 
 model Nakes {
-  id         String  @id @default(cuid())
-  email      String  @unique
-  faskesId   String
-  nama       String
-  nip        Int
-  fotoProfil String?
-  kontak     Int
-  faskes     Faskes  @relation(fields: [faskesId], references: [id])
+    //------------- Atribut Default -------------
+    id            String          @id @default(cuid())
+    email         String          @unique
+    nama          String
+    password      String                              // Hashed Password
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+
+    //------------- Atribut Nakes -------------
+    nip           Int
+    fotoProfil    String?
+    kontak        Int
+
+    //------------- Relasi Faskes -------------
+    faskesId      String
+    faskes        Faskes          @relation(fields: [faskesId], references: [id])
 }
+
 
 model Faskes {
-  id         String  @id @default(cuid())
-  namaFaskes String
-  alamat     String?
-  nakes      Nakes[]
+    id            String          @id @default(cuid())
+    namaFaskes    String
+    alamat        String?
+    nakes         Nakes[]
+    riwayat       Riwayat[]
 }
 
+
 model Riwayat {
-  id                           String    @id @default(cuid())
-  pasienId                     String
-  createdAt                    DateTime  @default(now())
-  anamnesis                    String?
-  beratBadan                   Float?
-  tinggiBadan                  Float?
-  tekananDarahSistole          Float?
-  tekananDarahDiastole         Float?
-  tinggiFundusUteri            Float?
-  n                            String?
-  lingkarLenganAtas            Float?
-  statusGizi                   String?
-  refleksPatella               String?
-  denyutJantungJanin           Float?
-  kepalaTerhadapPAP            Float?
-  taksiranBeratJanin           Float?
-  presentasi                   String?
-  injeksiTT                    Float?
-  catatDiBukuKIA               String?
-  fe                           Float?
-  hemoglobin                   Float?
-  proteinUrine                 Float?
-  gulaDarah                    Float?
-  talasemia                    String?
-  sifilis                      String?
-  hbsAg                        String?
-  ibuHamilDenganHIV            String?
-  ibuHamilDitawarkanTes        String?
-  ibuHamilDitesHIV             String?
-  hasilTesHIV                  String?
-  ibuHamilMendapatART          String?
-  rdtDarah                     String?
-  mikroskopisDarah             String?
-  ibuHamilDiperiksaDahak       String?
-  ibuHamilHasil                String?
-  persalinanPervaginam         String?
-  persalinanPerabdominam       String?
-  ibuHamilDiperiksaKelambu     String?
-  ibuHamilMendapatKinaACT      String?
-  rdtMalaria                   String?
-  mikroskopisMalaria           String?
-  ibuHamilDiperiksaAnkilostoma String?
-  ibuHamilHasilTesAnkilostoma  String?
-  ibuHamilDiperiksaHepatitis   String?
-  ibuHamilHasilTesHepatitis    String?
-  puskesmas                    String?
-  rumahBersalin                String?
-  rsiaRsb                      String?
-  rumahSakit                   String?
-  lainLain                     String?
-  keadaanTiba                  String?
-  keadaanPulang                String?
-  statusImunisasi              String?
-  konseling                    String?
-  risikoTerdeteksiOleh         String?
-  komplikasi                   String?
-  tanggalMenstruasiTerakhir    DateTime?
-  tanggalPerkiraanLahir        DateTime?
-  tanggalKontrolKembali        DateTime?
-  pasien                       Pasien    @relation(fields: [pasienId], references: [id])
+    id                           String    @id @default(cuid())
+    pasienId                     String
+    nakesId                      String
+    faskesId                     String
+    createdAt                    DateTime  @default(now())
+
+    //------------- Relations -------------
+    pemeriksaan                  RiwayatPemeriksaan?
+    pelayanan                    RiwayatPelayanan?
+    laboratorium                 RiwayatLaboratorium?
+    integrasi                    RiwayatIntegrasi?
+    rujukan                      RiwayatRujukan?
+    lainnya                      RiwayatLainnya?
+    pasien                       Pasien    @relation(fields: [pasienId], references: [id])
+    faskes                       Faskes    @relation(fields: [faskesId], references: [id])
+}
+
+
+model RiwayatPemeriksaan {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Pemeriksaan Ibu -------------
+    anamnesis                    String?
+    beratBadan                   Float?
+    tinggiBadan                  Float?
+    tekananDarahSistole          Float?
+    tekananDarahDiastole         Float?
+    tinggiFundusUteri            Float?
+    n                            String?
+    lingkarLenganAtas            Float?
+    statusGizi                   String?
+    refleksPatella               String?
+
+    //------------- Pemeriksaan Janin -------------
+    denyutJantungJanin           Float?
+    kepalaTerhadapPAP            Float?
+    taksiranBeratJanin           Float?
+    presentasi                   String?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatPelayanan {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Pelayanan -------------
+    injeksiTT                    Float?
+    catatDiBukuKIA               String?
+    fe                           Float?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatLaboratorium {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Laboratorium -------------
+    hemoglobin                   Float?
+    proteinUrine                 Float?
+    gulaDarah                    Float?
+    talasemia                    String?
+    sifilis                      String?
+    hbsAg                        String?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatIntegrasi {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Integrasi -------------
+    ibuHamilDenganHIV            String?
+    ibuHamilDitawarkanTes        String?
+    ibuHamilDitesHIV             String?
+    hasilTesHIV                  String?
+    ibuHamilMendapatART          String?
+    rdtDarah                     String?
+    mikroskopisDarah             String?
+    ibuHamilDiperiksaDahak       String?
+    ibuHamilHasil                String?
+    persalinanPervaginam         String?
+    persalinanPerabdominam       String?
+    ibuHamilDiperiksaKelambu     String?
+    ibuHamilMendapatKinaACT      String?
+    rdtMalaria                   String?
+    mikroskopisMalaria           String?
+    ibuHamilDiperiksaAnkilostoma String?
+    ibuHamilHasilTesAnkilostoma  String?
+    ibuHamilDiperiksaHepatitis   String?
+    ibuHamilHasilTesHepatitis    String?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatRujukan {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Rujukan -------------
+    puskesmas                    String?
+    rumahBersalin                String?
+    rsiaRsb                      String?
+    rumahSakit                   String?
+    lainLain                     String?
+    keadaanTiba                  String?
+    keadaanPulang                String?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatLainnya {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Lainnya -------------
+    statusImunisasi              String?
+    konseling                    String?
+    risikoTerdeteksiOleh         String?
+    komplikasi                   String?
+    tanggalMenstruasiTerakhir    DateTime?
+    tanggalPerkiraanLahir        DateTime?
+    tanggalKontrolKembali        DateTime?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
 }
