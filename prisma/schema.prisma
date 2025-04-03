@@ -31,6 +31,7 @@ model Pasien {
     kontak        Int
     statusResiko  StatusResiko    @default(RENDAH)
     riwayat       Riwayat[]
+    dailyTasks    DailyTasks[]
 
     //------------- Keterangan Suami -------------
     suamiNama     String?
@@ -201,4 +202,17 @@ model RiwayatLainnya {
     tanggalKontrolKembali        DateTime?
 
     riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model DailyTasks {
+    id            String          @id @default(cuid())
+    title         String
+    description   String?
+    status        Boolean         @default(false)
+    date          DateTime
+
+    //------------- Relasi Pasien -------------
+    pasienId      String
+    pasien        Pasien          @relation(fields: [pasienId], references: [id])
 }
