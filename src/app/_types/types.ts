@@ -17,7 +17,22 @@ export interface TaskWrapperProps {
 
 // History Pasien
 export interface HistoryUserProps {
+    riwayatId: string;
     faskes: string;
     nakes: string;
     resiko: string;
+}
+
+export interface HistoryUserWrapperProps {
+    tanggal: Date;
+    history: HistoryUserProps[];
+}
+
+
+
+// ------------------COMPONENTS------------------
+// Menu Bar User
+export type MenuBarUserProps = {
+    activeOption: "ibu" | "anak";
+    setActiveOption: (option: "ibu" | "anak") => void;
 }

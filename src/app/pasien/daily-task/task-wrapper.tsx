@@ -9,7 +9,7 @@ import { TaskWrapperProps } from "../../_types/types";
 import TaskItem from "~/app/_components/user/daily-task";
 
 // Dummy Data
-import { dummyTaskData } from "../../_data/dummy-tasks";
+import { dummyTaskData } from "../../_data/dummy";
 
 
 const DailyTaskList: React.FC = () => {
