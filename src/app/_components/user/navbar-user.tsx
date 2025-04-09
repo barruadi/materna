@@ -9,13 +9,13 @@ export const NavbarUser = () => {
 
   const menuItems = [
     { id: "home", text: "Beranda", defaultSrc: "/Home.svg", activeSrc: "/Home-active.svg", href: "/" },
-    { id: "discover", text: "Riwayat", defaultSrc: "/Discover.svg", activeSrc: "/Discover-active.svg", href: "/" },
-    { id: "profile", text: "Akun", defaultSrc: "/Profile.svg", activeSrc: "/Profile-active.svg", href: "/" },
+    { id: "todo", text: "To Do", defaultSrc: "/ToDo.svg", activeSrc: "/Discover-active.svg", href: "/" },
+    { id: "riwayat", text: "Riwayat", defaultSrc: "/History.svg", activeSrc: "/Profile-active.svg", href: "/" },
   ];
 
   return (
-    <nav className="fixed bottom-0 w-full bg-white/10 py-2 shadow-lg">
-      <div className="flex justify-center space-x-16 md:space-x-24">
+    <nav className="fixed bottom-0 w-full pt-3 pb-2 shadow-lg bg-amber-50 z-10 text-[10px]">
+      <div className="flex justify-center space-x-10 md:space-x-24">
         {menuItems.map((item) => (
           <Link
             key={item.id}
@@ -26,12 +26,12 @@ export const NavbarUser = () => {
             <Image
               src={activeTab === item.id ? item.activeSrc : item.defaultSrc}
               alt={item.id}
-              width={30}
-              height={30}
+              width={20}
+              height={20}
               className="transition-all duration-300 ease-in-out transform group-hover:scale-110"
             />
 
-            <span className={`text-sm font-medium ${activeTab === item.id ? "text-gray-600" : "text-gray-500"}`}>
+            <span className={`font-medium ${activeTab === item.id ? "text-black" : "text-gray-400"}`}>
               {item.text}
             </span>
           </Link>
