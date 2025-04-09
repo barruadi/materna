@@ -412,19 +412,10 @@ const NakesDashboard: React.FC = () => {
           </Col>
         </Row>
 
-        <Divider orientation="left">Data Pasien</Divider>
+        <Divider orientation="center">Data Pasien</Divider>
         
         {/* Patient Table */}
         <Card
-          title="Jadwal Kunjungan Pasien"
-          extra={
-            <Space>
-              <Button icon={<SearchOutlined />}>Cari</Button>
-              <Link href="/admin/tambah-pasien">
-                <Button type="primary">Tambah Pasien</Button>
-              </Link>
-            </Space>
-          }
         >
           <Table 
             columns={columns} 

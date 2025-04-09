@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Form, Button, Steps, message, Card } from 'antd';
+import { Form, Button, Steps, message, Card, Spin } from 'antd';
 import { ArrowLeftOutlined, ArrowRightOutlined, SendOutlined } from '@ant-design/icons';
 import PemeriksaanForm from '../../_components/admin/riwayat-form/PemeriksaanForm';
 import PelayananForm from '../../_components/admin/riwayat-form/PelayananForm';
@@ -13,19 +13,23 @@ import LainnyaForm from '~/app/_components/admin/riwayat-form/LainnyaForm';
 import RiwayatBasicForm from '../../_components/admin/riwayat-form/RiwayatBasicForm';
 import Topbar from '../../_components/admin/topbar';
 import SidebarDesktop from '../../_components/admin/sidebar';
+import { useRouter } from 'next/router';
 
 const { Step } = Steps;
+//const router = useRouter();
 
 const RiwayatForm: React.FC = () => {
   const [form] = Form.useForm();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const steps = [
-    // {
-    //   title: 'Riwayat',
-    //   content: <RiwayatBasicForm form={form} formData={formData} />,
-    // },
+    {
+      title: 'Riwayat',
+      content: <RiwayatBasicForm form={form} formData={formData} />,
+    },
     {
       title: 'Pemeriksaan',
       content: <PemeriksaanForm form={form} formData={formData} />,
@@ -75,21 +79,57 @@ const RiwayatForm: React.FC = () => {
     try {
       // Validate all fields
       const values = await form.validateFields();
+      
+      // Prepare final form data, combining previous steps with current step
       const finalFormData = { ...formData, ...values };
       
-      // Submit data
-      console.log('Form data submitted:', finalFormData);
+      // Process date fields to ISO format for API submission
+      const processedData = {
+        ...finalFormData,
+        createdAt: finalFormData.createdAt ? finalFormData.createdAt.toISOString() : undefined,
+        tanggalMenstruasiTerakhir: finalFormData.tanggalMenstruasiTerakhir ? 
+          finalFormData.tanggalMenstruasiTerakhir.toISOString() : undefined,
+        tanggalPerkiraanLahir: finalFormData.tanggalPerkiraanLahir ? 
+          finalFormData.tanggalPerkiraanLahir.toISOString() : undefined,
+        tanggalKontrolKembali: finalFormData.tanggalKontrolKembali ? 
+          finalFormData.tanggalKontrolKembali.toISOString() : undefined,
+      };
+
+      console.log('Final Form Data:', processedData);
       
-      // Here you would typically send the data to your API
-      // await submitRiwayatData(finalFormData);
+      setSubmitting(true);
       
-      message.success('Form submitted successfully!');
-      form.resetFields();
-      setFormData({});
-      setCurrentStep(0);
-    } catch (errorInfo) {
-      console.log('Failed:', errorInfo);
-      message.error('Please fill in all required fields.');
+      // Submit data to API
+      const response = await fetch('/api/riwayat/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(processedData),
+      });
+
+      console.log('Response:', response);
+      
+      const result = await response.json();
+
+      console.log('Result:', result);
+      
+      if (response.ok && result.success) {
+        message.success('Data riwayat berhasil disimpan!');
+        
+        // Reset form and state
+        form.resetFields();
+        setFormData({});
+        setCurrentStep(0);
+        //router.push('/admin');
+      } else {
+        message.error(`Gagal menyimpan data: ${result.message || 'Terjadi kesalahan'}`);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      message.error('Gagal menyimpan data. Silakan periksa kembali formulir Anda.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -107,49 +147,54 @@ const RiwayatForm: React.FC = () => {
             ))}
           </Steps>
           
-          <Form
-            form={form}
-            layout="vertical"
-            initialValues={formData}
-          >
-            <div className="steps-content">
-              {steps[currentStep] ? steps[currentStep].content : null}
-            </div>
+          <Spin spinning={submitting} tip="Menyimpan data...">
+            <Form
+              form={form}
+              layout="vertical"
+              initialValues={formData}
+            >
+              <div className="steps-content">
+                {steps[currentStep] ? steps[currentStep].content : null}
+              </div>
 
-            
-            <div className="steps-action" style={{ marginTop: 24, display: 'flex', justifyContent: 'space-between' }}>
-              {currentStep > 0 && (
-                <Button 
-                  icon={<ArrowLeftOutlined />} 
-                  onClick={prev}
-                >
-                  Previous
-                </Button>
-              )}
               
-              {currentStep < steps.length - 1 && (
-                <Button 
-                  type="primary" 
-                  onClick={next}
-                  style={{ marginLeft: 'auto' }}
-                  icon={<ArrowRightOutlined />}
-                >
-                  Next
-                </Button>
-              )}
-              
-              {currentStep === steps.length - 1 && (
-                <Button 
-                  type="primary" 
-                  onClick={handleSubmit}
-                  style={{ marginLeft: 'auto' }}
-                  icon={<SendOutlined />}
-                >
-                  Submit
-                </Button>
-              )}
-            </div>
-          </Form>
+              <div className="steps-action" style={{ marginTop: 24, display: 'flex', justifyContent: 'space-between' }}>
+                {currentStep > 0 && (
+                  <Button 
+                    icon={<ArrowLeftOutlined />} 
+                    onClick={prev}
+                    disabled={submitting}
+                  >
+                    Previous
+                  </Button>
+                )}
+                
+                {currentStep < steps.length - 1 && (
+                  <Button 
+                    type="primary" 
+                    onClick={next}
+                    style={{ marginLeft: 'auto' }}
+                    icon={<ArrowRightOutlined />}
+                    disabled={submitting}
+                  >
+                    Next
+                  </Button>
+                )}
+                
+                {currentStep === steps.length - 1 && (
+                  <Button 
+                    type="primary" 
+                    onClick={handleSubmit}
+                    style={{ marginLeft: 'auto' }}
+                    icon={<SendOutlined />}
+                    loading={submitting}
+                  >
+                    Submit
+                  </Button>
+                )}
+              </div>
+            </Form>
+          </Spin>
         </Card>
         </div>
     </div>
@@ -157,3 +202,7 @@ const RiwayatForm: React.FC = () => {
 };
 
 export default RiwayatForm;
+
+function setSubmitting(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
