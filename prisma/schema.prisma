@@ -1,74 +1,204 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
+enum StatusResiko {
+  RENDAH
+  SEDANG
+  TINGGI
 }
 
-// Necessary for Next auth
-model Account {
-    id                       String  @id @default(cuid())
-    userId                   String
-    type                     String
-    provider                 String
-    providerAccountId        String
-    refresh_token            String? // @db.Text
-    access_token             String? // @db.Text
-    expires_at               Int?
-    token_type               String?
-    scope                    String?
-    id_token                 String? // @db.Text
-    session_state            String?
-    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    refresh_token_expires_in Int?
+model Pasien {
+    //------------- Atribut Default -------------
+    id            String          @id @default(cuid())
+    email         String          @unique
+    nama          String
+    password      String                              // Hashed Password
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
 
-    @@unique([provider, providerAccountId])
+    //------------- Atribut Pasien -------------
+    nik           Int
+    tanggalLahir  DateTime
+    fotoProfil    String?
+    golonganDarah String
+    kontak        Int
+    statusResiko  StatusResiko    @default(RENDAH)
+    riwayat       Riwayat[]
+
+    //------------- Keterangan Suami -------------
+    suamiNama     String?
+    suamiKontak   Int?
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+model Nakes {
+    //------------- Atribut Default -------------
+    id            String          @id @default(cuid())
+    email         String          @unique
+    nama          String
+    password      String                              // Hashed Password
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+
+    //------------- Atribut Nakes -------------
+    nip           Int
+    fotoProfil    String?
+    kontak        Int
+
+    //------------- Relasi Faskes -------------
+    faskesId      String
+    faskes        Faskes          @relation(fields: [faskesId], references: [id])
 }
 
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+
+model Faskes {
+    id            String          @id @default(cuid())
+    namaFaskes    String
+    alamat        String?
+    nakes         Nakes[]
+    riwayat       Riwayat[]
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
 
-    @@unique([identifier, token])
+model Riwayat {
+    id                           String    @id @default(cuid())
+    pasienId                     String
+    nakesId                      String
+    faskesId                     String
+    createdAt                    DateTime  @default(now())
+
+    //------------- Relations -------------
+    pemeriksaan                  RiwayatPemeriksaan?
+    pelayanan                    RiwayatPelayanan?
+    laboratorium                 RiwayatLaboratorium?
+    integrasi                    RiwayatIntegrasi?
+    rujukan                      RiwayatRujukan?
+    lainnya                      RiwayatLainnya?
+    pasien                       Pasien    @relation(fields: [pasienId], references: [id])
+    faskes                       Faskes    @relation(fields: [faskesId], references: [id])
+}
+
+
+model RiwayatPemeriksaan {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Pemeriksaan Ibu -------------
+    anamnesis                    String?
+    beratBadan                   Float?
+    tinggiBadan                  Float?
+    tekananDarahSistole          Float?
+    tekananDarahDiastole         Float?
+    tinggiFundusUteri            Float?
+    n                            String?
+    lingkarLenganAtas            Float?
+    statusGizi                   String?
+    refleksPatella               String?
+
+    //------------- Pemeriksaan Janin -------------
+    denyutJantungJanin           Float?
+    kepalaTerhadapPAP            Float?
+    taksiranBeratJanin           Float?
+    presentasi                   String?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatPelayanan {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Pelayanan -------------
+    injeksiTT                    Float?
+    catatDiBukuKIA               String?
+    fe                           Float?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatLaboratorium {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Laboratorium -------------
+    hemoglobin                   Float?
+    proteinUrine                 Float?
+    gulaDarah                    Float?
+    talasemia                    String?
+    sifilis                      String?
+    hbsAg                        String?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatIntegrasi {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Integrasi -------------
+    ibuHamilDenganHIV            String?
+    ibuHamilDitawarkanTes        String?
+    ibuHamilDitesHIV             String?
+    hasilTesHIV                  String?
+    ibuHamilMendapatART          String?
+    rdtDarah                     String?
+    mikroskopisDarah             String?
+    ibuHamilDiperiksaDahak       String?
+    ibuHamilHasil                String?
+    persalinanPervaginam         String?
+    persalinanPerabdominam       String?
+    ibuHamilDiperiksaKelambu     String?
+    ibuHamilMendapatKinaACT      String?
+    rdtMalaria                   String?
+    mikroskopisMalaria           String?
+    ibuHamilDiperiksaAnkilostoma String?
+    ibuHamilHasilTesAnkilostoma  String?
+    ibuHamilDiperiksaHepatitis   String?
+    ibuHamilHasilTesHepatitis    String?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatRujukan {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Rujukan -------------
+    puskesmas                    String?
+    rumahBersalin                String?
+    rsiaRsb                      String?
+    rumahSakit                   String?
+    lainLain                     String?
+    keadaanTiba                  String?
+    keadaanPulang                String?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
+}
+
+
+model RiwayatLainnya {
+    id                           String    @id @default(cuid())
+    riwayatId                    String    @unique
+
+    //------------- Lainnya -------------
+    statusImunisasi              String?
+    konseling                    String?
+    risikoTerdeteksiOleh         String?
+    komplikasi                   String?
+    tanggalMenstruasiTerakhir    DateTime?
+    tanggalPerkiraanLahir        DateTime?
+    tanggalKontrolKembali        DateTime?
+
+    riwayat                 Riwayat  @relation(fields: [riwayatId], references: [id])
 }
