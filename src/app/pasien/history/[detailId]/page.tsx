@@ -1,47 +1,101 @@
 "use client"
 
+import type { CSSProperties } from 'react';
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import MenuBarUser from "~/app/_components/user/menubar-user";
+import { 
+    Collapse,
+    CollapseProps,
+    theme,
+    Space,
+    Flex
+} from "antd";
 
-import { LeftOutlined } from "@ant-design/icons";
+const text = `
+  A dog is a type of domesticated animal.
+  Known for its loyalty and faithfulness,
+  it can be found as a welcome guest in many households across the world.
+`;
+
+const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
+    {
+      key: '1',
+      label: 'Riwayat Pemeriksaan',
+      children: <p>{text}</p>,
+      style: panelStyle,
+    },
+    {
+      key: '2',
+      label: 'Riwayat Pelayanan',
+      children: <p>{text}</p>,
+      style: panelStyle,
+    },
+    {
+      key: '3',
+      label: 'Riwayat Laboratorium',
+      children: <p>{text}</p>,
+      style: panelStyle,
+    },
+    {
+      key: '4',
+      label: 'Riwayat Integrasi',
+      children: <p>{text}</p>,
+      style: panelStyle,
+    },
+    {
+      key: '5',
+      label: 'Riwayat Rujukan',
+      children: <p>{text}</p>,
+      style: panelStyle,
+    },
+    {
+      key: '6',
+      label: 'Riwayat Lainnya',
+      children: <p>{text}</p>,
+      style: panelStyle,
+    },
+];
+  
+
+import { 
+    LeftOutlined,
+    CaretRightOutlined,
+ } from "@ant-design/icons";
 
 function HistoryDetailPage() {
     const router = useRouter();
+    
+    const { token } = theme.useToken();
 
-    const detailId = 1;
-
-    // useEffect fetch data
-
-
-    const [menuBarOption, setMenuBarOption] = useState<'ibu' | 'anak'>('ibu');
-    const [historySection, setHistorySection] = useState();
-
-    const handleToggle = (option: 'ibu' | 'anak') => {
-        if (option !== menuBarOption) {
-            setMenuBarOption(option);
-            switch (option) {
-                case 'ibu':
-                    setHistorySection();
-                case 'anak':
-                    setHistorySection();
-            }
-        }
-    }
+    const panelStyle: React.CSSProperties = {
+        marginBottom: 24,
+        background: token.colorFillAlter,
+        borderRadius: token.borderRadiusLG,
+        border: 'none',
+    };
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            {/* Header */}
-            <div className="flex w-full p-6 text-xl gap-4">
-                <LeftOutlined/>
-                Kunjungan ke-{detailId}
-            </div>
-            <MenuBarUser 
-                activeOption={menuBarOption}
-                setActiveOption={handleToggle}
-            />
-        </div>
+        <>
+            <Space direction="vertical" style={{ display: 'flex', gap: '24px' }}>
+                <Flex gap={"middle"}>
+                    <LeftOutlined 
+                        style={{ fontSize: '24px' }} 
+                        onClick={() => router.push('/pasien/history')}
+                    />
+                    <h2 className="text-xl font-semibold">    
+                        Detail History
+                    </h2>
+                </Flex>
+                <Collapse
+                    bordered={false}
+                    defaultActiveKey={['1']}
+                    expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+                    style={{ background: token.colorBgContainer }}
+                    items={getItems(panelStyle)}
+                    />
+            </Space>
+        </>
     )
 }
 
