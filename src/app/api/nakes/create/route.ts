@@ -9,14 +9,13 @@ export async function POST(req: Request) {
         email, 
         username, 
         password,
-        nik,
-        tanggalLahir,
-        golonganDarah,
+        nip,
         kontak, 
+        faskesId,
     } = body;
 
     // check if email already exist
-    const existingUserEmail = await db.pasien.findUnique({
+    const existingUserEmail = await db.nakes.findUnique({
       where: { email },
     });
     if (existingUserEmail) {
@@ -24,7 +23,7 @@ export async function POST(req: Request) {
     }
 
     // check if username already exist
-    const existingUserUsername = await db.pasien.findUnique({
+    const existingUserUsername = await db.nakes.findUnique({
       where: { email },
     });
     if (existingUserUsername) {
@@ -35,15 +34,14 @@ export async function POST(req: Request) {
     const hashedPassword = await hash(password, 10);
 
     // create user
-    const user = await db.pasien.create({ 
+    const user = await db.nakes.create({ 
       data: {
-        email,
+        email: email,
         nama: username,
-        nik: Number(nik),
+        nip: Number(nip),
         password: hashedPassword,
-        tanggalLahir: tanggalLahir,
-        golonganDarah: golonganDarah,
         kontak: Number(kontak),
+        faskesId: faskesId,
       }
     });
     // exclude password

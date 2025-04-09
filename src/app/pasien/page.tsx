@@ -11,7 +11,7 @@ const App: React.FC = async () => {
   
   const session = await auth();
   console.log(session);
-  console.log("session", session?.user.nama);
+  console.log("session", session?.user.name);
 
   return (
     <div className="grid grid-cols-1 gap-y-4 w-screen border h-fit items-start pb-12">

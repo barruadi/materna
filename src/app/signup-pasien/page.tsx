@@ -1,19 +1,20 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
-  Button,
   DatePicker,
   Form,
   Input,
   Select,
-  Layout,
-  Space,
-  Card,
   Divider,
 } from 'antd';
-import { CalendarOutlined, IdcardOutlined, MedicineBoxOutlined, PhoneOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
+import { 
+  CalendarOutlined, 
+  IdcardOutlined, 
+  MedicineBoxOutlined, 
+  PhoneOutlined, 
+  TeamOutlined, 
+  UserOutlined 
+} from '@ant-design/icons';
 
 export default function SignupPage() {
 

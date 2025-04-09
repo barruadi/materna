@@ -22,7 +22,7 @@ export default function SignupPage() {
 const handleSignup = async (values: any) => {
   console.log("Form values:", values);
 
-  const response = await fetch("/api/pasien/create", {
+  const response = await fetch("/api/nakes/create", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -31,7 +31,7 @@ const handleSignup = async (values: any) => {
       password: values.Password,
       nip: values.NIP,
       kontak:  values.Kontak,
-      faskesID: values.FaskesID,
+      faskesId: "cm9abszdd0001eciw4z8ap0zw",
     }),
   });
 

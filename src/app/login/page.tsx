@@ -13,21 +13,25 @@ export default function LoginPage() {
   const [type, setType] = useState(""); // <-- ADD THIS
   const router = useRouter();
 
-  const handleLogin = async (e: FormEvent) =>{
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    const signInData = await signIn("credentials", {
+
+    const signInData = await signIn(type, {
         email: email,
         password: password,
         redirect: false,
     });
-    
     if (signInData?.error) {
         console.log("Login failed");
     } else {
         console.log("Login success");
-        router.push("/");
+        if (type === "pasien") {
+            router.push("/pasien");
+        } else if (type === "nakes") {
+            router.push("/nakes");
+        }
     }
-  }
+}
 
   // get login type
   useEffect(() => {

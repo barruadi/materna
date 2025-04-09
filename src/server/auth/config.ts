@@ -16,8 +16,9 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      nama: string;
-      // ...other properties
+      name: string;
+      email: string;
+      role: "pasien" | "nakes";
       // role: UserRole;
     } & DefaultSession["user"];
   }
@@ -35,7 +36,8 @@ declare module "next-auth" {
 export const authConfig = {
   providers: [
     Credentials({
-      name: "Credentials",
+      id: "pasien",
+      name: "Pasien Credentials",
 
       credentials: {
         email: { label: "Username", type: "text", placeholder: "Username"},
@@ -62,7 +64,43 @@ export const authConfig = {
       return {
         id: `${existingUser.id}`,
         email: existingUser.email,
-        nama: existingUser.nama,
+        name: existingUser.nama,
+        role: "pasien",
+      }
+    }
+    }),
+
+    Credentials({
+      id: "nakes",
+      name: "Nakes Credentials",
+
+      credentials: {
+        email: { label: "Username", type: "text", placeholder: "Username"},
+        password: { label: "Password", type: "password", placeholder: "Password"        }
+      },
+
+      async authorize(credentials, ) {if (!credentials?.email || !credentials?.password) {
+        return null;
+      } 
+      const existingUser = await db.nakes.findUnique({
+        where: { email: credentials?.email as string },
+      });
+      if (!existingUser) {
+        return null;
+      }
+
+      const passwordMatch = await compare(
+        credentials?.password as string,
+        existingUser.password
+      )
+      if (!passwordMatch) {
+        return null;
+      }
+      return {
+        id: `${existingUser.id}`,
+        email: existingUser.email,
+        name: existingUser.nama,
+        role: "nakes",
       }
     }
     })
@@ -83,7 +121,8 @@ export const authConfig = {
       console.log({ token, user });
       if (user) {
         token.id = user.id;
-        token.nama = user.name;
+        token.email = user.email;
+        token.name = user.name;
       }
       return token;
     },
@@ -94,7 +133,7 @@ export const authConfig = {
         user: {
           ...session.user,
           id: token.id as string,
-          nama: token.nama as string,
+          name: token.name as string,
         }
       }
     },
