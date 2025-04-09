@@ -1,28 +1,26 @@
-"use client";
+import { TaskItemProps } from "~/app/_types/types";
 
-import { useState } from "react";
-
-interface TaskProps {
-  text: string;
-  details: string;
-}
-
-const TaskItem: React.FC<TaskProps> = ({ text, details }) => {
-  const [isChecked, setIsChecked] = useState(false);
-
+function TaskItem ({ 
+  title, 
+  description, 
+  isChecked, 
+  onToggle 
+}: TaskItemProps) {
   return (
-    <div className="flex items-center justify-start w-full p-2 border rounded-xl gap-x-2">
+    <div className="flex items-center justify-start w-full p-3 border rounded-xl mb-2 gap-3">
       <button
-        onClick={() => setIsChecked(!isChecked)}
-        className={`w-6 h-6 flex items-center justify-center rounded-full border border-black transition-all duration-300 ${
-          isChecked ? "bg-[#5A5A5A] border-[#5A5A5A]" : "bg-white"
+        onClick={onToggle}
+        className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-300 ${
+          isChecked ? "bg-[#5A5A5A]" : "bg-white border border-[#5A5A5A]"
         }`}
       >
-        {isChecked && <span className="text-white text-lg">✓</span>}
+        {isChecked && 
+          <span className="text-white text-lg">✓</span>
+        }
       </button>
-      <div className={`flex flex-col ${isChecked ? "text-[#5A5A5A] line-through" : ""}`}>
-        <span className="text-black text-[13px] font-semibold leading-tight">{text}</span>
-        <span className="text-[12px]">{details}</span>
+      <div className="flex flex-col">
+        <span className={`text-black font-medium ${isChecked ? "opacity-50" : ""}`}>{title}</span>
+        <span className={`text-gray-500 text-sm ${isChecked ? "opacity-50" : ""}`}>{description}</span>
       </div>
     </div>
   );
