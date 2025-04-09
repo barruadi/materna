@@ -2,7 +2,7 @@ import "~/styles/globals.css";
 
 import React from 'react';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-
+import { SessionProvider } from "next-auth/react";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export default function RootLayout({
@@ -14,9 +14,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <SessionProvider>
         <TRPCReactProvider>
           <AntdRegistry>{children}</AntdRegistry>
         </TRPCReactProvider>
+        </SessionProvider>
       </body>
     </html>
   )

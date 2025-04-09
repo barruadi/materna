@@ -2,8 +2,17 @@ import React from "react";
 import DailyTaskList from "~/app/pasien/daily-task/task-wrapper";
 import AdsSlider from "~/app/_components/user/ads-slider";
 
-const App: React.FC = () => {
+import { authConfig } from "~/server/auth/config";
+import getServerSession from "next-auth";
+
+import { auth } from "../api/auth/[...nextauth]/route";
+
+const App: React.FC = async () => {
   
+  const session = await auth();
+  console.log(session);
+  console.log("session", session?.user.nama);
+
   return (
     <div className="grid grid-cols-1 gap-y-4 w-screen border h-fit items-start pb-12">
       {/* Grafik Perkembangan */}

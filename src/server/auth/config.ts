@@ -1,6 +1,8 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+
+import Credentials from "next-auth/providers/credentials";
+import { compare } from "bcrypt";
 
 import { db } from "~/server/db";
 
@@ -14,43 +16,87 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      nama: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
   }
 
   // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
+  //   user: User & {
+  //     nama: string
+  //   }
+  //   token: {
+  //     nama: string
+  //   }
   // }
 }
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
 export const authConfig = {
   providers: [
-    DiscordProvider,
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
-  ],
-  adapter: PrismaAdapter(db),
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
+    Credentials({
+      name: "Credentials",
+
+      credentials: {
+        email: { label: "Username", type: "text", placeholder: "Username"},
+        password: { label: "Password", type: "password", placeholder: "Password"        }
       },
-    }),
+
+      async authorize(credentials, ) {if (!credentials?.email || !credentials?.password) {
+        return null;
+      } 
+      const existingUser = await db.pasien.findUnique({
+        where: { email: credentials?.email as string },
+      });
+      if (!existingUser) {
+        return null;
+      }
+
+      const passwordMatch = await compare(
+        credentials?.password as string,
+        existingUser.password
+      )
+      if (!passwordMatch) {
+        return null;
+      }
+      return {
+        id: `${existingUser.id}`,
+        email: existingUser.email,
+        nama: existingUser.nama,
+      }
+    }
+    })
+  ],
+
+  session: {
+    strategy: "jwt",
   },
+
+  pages: {
+    signIn: "/login",
+  },
+
+  adapter: PrismaAdapter(db),
+  
+  callbacks: {
+    async jwt({ token, user }) {
+      console.log({ token, user });
+      if (user) {
+        token.id = user.id;
+        token.nama = user.name;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      console.log({ session, token });
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id as string,
+          nama: token.nama as string,
+        }
+      }
+    },
+  }
 } satisfies NextAuthConfig;

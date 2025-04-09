@@ -23,7 +23,6 @@ const HeaderUser = ({ title: propsTitle }: HeaderUserProps) => {
   };
   
   const title = propsTitle || (lastSegment ? formatTitle(lastSegment) : null);
-  
   return (
     <div className="fixed top-0 w-full bg-amber-50 flex flex-row items-center p-2 px-4 rounded-xl border-none h-20 justify-between">
       {!title && (
@@ -34,7 +33,7 @@ const HeaderUser = ({ title: propsTitle }: HeaderUserProps) => {
           </button>
           <div>
             <p className="text-gray-500 text-[12px] leading-tight">Welcome,</p>
-            <p className="font-bold text-lg">Rafif Farras!</p>
+            <p className="font-bold text-lg"></p>
           </div>
         </div>
         <img src="/logo.svg" alt="Logo" className="w-10 h-10" />
