@@ -6,13 +6,13 @@ import { Header } from "antd/es/layout/layout";
 export default function AdminLayout({ children }: { children: ReactNode }) {
     return (
         <div className="flex flex-col h-screen">
-            <PageHeader/>
+            {/* <PageHeader/> */}
             <div className="flex flex-row flex-grow">
-                <Sidebar/>
+                {/* <Sidebar/> */}
                 <div className="flex-grow overflow-auto">
-                <Header className="px-7 bg-white flex flex-row justify-between items-center">
+                {/* <Header className="px-7 bg-white flex flex-row justify-between items-center">
                     <b className="text-xl">Daftar Pasien</b>
-                </Header>
+                </Header> */}
                     <main>{children}</main>
                 </div>
             </div>
