@@ -19,9 +19,9 @@ interface ProductAd {
 }
 
 const productAds: ProductAd[] = [
-  { id: 1, imageUrl: "/product1.png", productName: "Product A" },
-  { id: 2, imageUrl: "/product2.png", productName: "Product B" },
-  { id: 3, imageUrl: "/product3.png", productName: "Product C" },
+  { id: 1, imageUrl: "/logo.svg", productName: "Product A" },
+  { id: 2, imageUrl: "/user-image.png", productName: "Product B" },
+  { id: 3, imageUrl: "/logo.svg", productName: "Product C" },
 ];
 
 const AdsSlider: FC = () => {
@@ -48,8 +48,8 @@ const AdsSlider: FC = () => {
   return (
     <div className="relative w-full">
       <Swiper
-        spaceBetween={10} // Reduced space between slides
-        slidesPerView={1.8} // Increased slides per view to show more products
+        spaceBetween={5} // Reduced space between slides
+        slidesPerView={2.3} // Increased slides per view to show more products
         pagination={{ 
           clickable: true,
           el: '.custom-pagination',
@@ -65,7 +65,7 @@ const AdsSlider: FC = () => {
       </Swiper>
       
       {/* Custom Pagination Container with more space */}
-      <div className="custom-pagination mt-6 flex justify-center"></div>
+      <div className="custom-pagination mt-3 gap-x-1 flex justify-center"></div>
     </div>
   );
 };
