@@ -1,14 +1,9 @@
 import React from "react";
-import TaskItem from "~/app/_components/user/daily-task";
+import DailyTaskList from "~/app/pasien/daily-task/task-wrapper";
 import AdsSlider from "~/app/_components/user/ads-slider";
 
 const App: React.FC = () => {
-  const ToDo = [
-    {text: "Minum vitamin", details: "Vitamin A B C"},
-    {text: "Olahraga", details: "Yoga class"},
-    {text: "Beli obat", details: "Sesuai rekomendasi dokter"},
-    {text: "Jalan kaki", details: "Minimal 1 km"},
-  ];
+  
   return (
     <div className="grid grid-cols-1 gap-y-4 w-screen border h-fit items-start pb-12 pt-[70px]">
       {/* Grafik Perkembangan */}
@@ -32,9 +27,7 @@ const App: React.FC = () => {
       <div>
         <h2 className="font-bold">Kegiatan Hari Ini</h2>
         <div className="my-1 space-y-2">
-          {ToDo.map((item, index) => (
-            <TaskItem key={index} text={item.text} details={item.details} />
-          ))}
+          <DailyTaskList/>
         </div>
       </div>
 

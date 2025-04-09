@@ -7,7 +7,7 @@ function TaskItem ({
   onToggle 
 }: TaskItemProps) {
   return (
-    <div className="flex items-center justify-start w-full p-3 border rounded-lg mb-2 gap-3">
+    <div className="flex items-center justify-start w-full p-3 border rounded-xl mb-2 gap-3">
       <button
         onClick={onToggle}
         className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-300 ${

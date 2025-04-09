@@ -36,3 +36,8 @@ export type MenuBarUserProps = {
     activeOption: "ibu" | "anak";
     setActiveOption: (option: "ibu" | "anak") => void;
 }
+
+// Header User
+export interface HeaderUserProps {
+    title?: string;
+}

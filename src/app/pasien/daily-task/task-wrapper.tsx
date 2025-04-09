@@ -42,7 +42,7 @@ const DailyTaskList: React.FC = () => {
   return (
     <div className="w-full space-y-2 pt-4">
       <div className="flex flex-col">
-        <h2 className="text-xl font-semibold">{formatDate(taskData.tanggal)}</h2>
+        <h2 className="text-lg font-semibold">{formatDate(taskData.tanggal)}</h2>
       </div>
       <div className="space-y-2">
         {taskData.dailyTask.map((task, index) => (
