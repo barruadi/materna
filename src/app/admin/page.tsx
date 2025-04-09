@@ -26,6 +26,7 @@ import {
 } from '@ant-design/icons';
 import SidebarDesktop from '../_components/admin/sidebar';
 import Topbar from '../_components/admin/topbar';
+import Link from 'next/link';
 
 const { Title, Text } = Typography;
 
@@ -419,7 +420,9 @@ const NakesDashboard: React.FC = () => {
           extra={
             <Space>
               <Button icon={<SearchOutlined />}>Cari</Button>
-              <Button type="primary">Tambah Pasien</Button>
+              <Link href="/admin/tambah-pasien">
+                <Button type="primary">Tambah Pasien</Button>
+              </Link>
             </Space>
           }
         >
