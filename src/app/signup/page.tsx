@@ -7,7 +7,11 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [nama, setNama] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [nik, setNIK] = useState("");
+  const [tanggalLahir, setTanggalLahir] = useState("");
+  const [golonganDarah, setGolonganDarah] = useState("");
+  const [kontak, setKontak] = useState("");
+
   const router = useRouter();
 
   const handleSignup = async (e: FormEvent) => {
@@ -22,7 +26,11 @@ export default function SignupPage() {
         body: JSON.stringify({ 
             email, 
             username: nama,
-            password
+            password,
+            nik,
+            tanggalLahir,
+            golonganDarah,
+            kontak
         }),
     })
 
@@ -61,7 +69,7 @@ export default function SignupPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={handleSignup} className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button onClick={handleSignup} className="bg-[#FFE5A6] text-black px-4 py-2 rounded">
             Sign Up
         </button>
       </form>
