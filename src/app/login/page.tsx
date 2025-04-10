@@ -10,7 +10,7 @@ import { signIn } from "next-auth/react";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState(""); // <-- ADD THIS
+  const [type, setType] = useState("pasien"); // <-- ADD THIS
   const router = useRouter();
 
   const handleLogin = async (e: FormEvent) => {

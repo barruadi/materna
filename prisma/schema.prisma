@@ -15,14 +15,16 @@ model Pasien {
   password      String
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
-  nik           Int
+  nik           BigInt
   tanggalLahir  DateTime
   fotoProfil    String?
   golonganDarah String
-  kontak        Int
+  kontak        BigInt
+  alamat        String?
   statusResiko  StatusResiko @default(RENDAH)
   suamiNama     String?
   suamiKontak   Int?
+  riwayatPenyakit String[]
   dailyTasks    DailyTasks[]
   riwayat       Riwayat[]
 }
@@ -34,9 +36,9 @@ model Nakes {
   password   String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  nip        Int
+  nip        BigInt
   fotoProfil String?
-  kontak     Int
+  kontak     BigInt
   faskesId   String
   faskes     Faskes   @relation(fields: [faskesId], references: [id])
 }

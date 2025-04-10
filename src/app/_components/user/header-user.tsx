@@ -4,11 +4,14 @@ import { usePathname } from "next/navigation";
 
 import { HeaderUserProps } from "~/app/_types/types";
 
+import { useSession } from "next-auth/react";
+
 import { 
   UserOutlined,
 } from "@ant-design/icons";
 
 const HeaderUser = ({ title: propsTitle }: HeaderUserProps) => {
+  const { data: session } = useSession();
   const pathname = usePathname();
   
   const pathSegments = pathname.split('/').filter(Boolean);
@@ -33,7 +36,7 @@ const HeaderUser = ({ title: propsTitle }: HeaderUserProps) => {
           </button>
           <div>
             <p className="text-gray-500 text-[12px] leading-tight">Welcome,</p>
-            <p className="font-bold text-lg"></p>
+            <p className="font-bold text-lg">{session?.user.name}</p>
           </div>
         </div>
         <img src="/logo.svg" alt="Logo" className="w-10 h-10" />

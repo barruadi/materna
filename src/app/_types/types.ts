@@ -9,6 +9,7 @@ export interface TaskItemProps {
 export interface TaskWrapperProps {
     tanggal: Date;
     dailyTask: {
+        id: string;
         title: string;
         description: string;
         isChecked: boolean;

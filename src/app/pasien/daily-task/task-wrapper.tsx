@@ -12,21 +12,29 @@ import TaskItem from "~/app/_components/user/daily-task";
 import { dummyTaskData } from "../../_data/dummy";
 
 
-const DailyTaskList: React.FC = () => {
-  const [taskData, setTaskData] = useState<TaskWrapperProps>(dummyTaskData);
+const DailyTaskList = ({
+  tanggal,
+  dailyTask
+}: TaskWrapperProps) => {
 
-  const handleToggle = (index: number) => {
-    const updatedTasks = [...taskData.dailyTask];
-    updatedTasks[index] = {
-      title: updatedTasks[index]?.title || "",
-      description: updatedTasks[index]?.description || "",
-      isChecked: !updatedTasks[index]?.isChecked || false
-    };
-    
-    setTaskData({
-      ...taskData,
-      dailyTask: updatedTasks
+  const handleToggle = async (index: number) => {
+    const updateId = dailyTask[index]?.id;
+
+    const response = await fetch("/api/pasien/dailytask", {
+      method: "UPDATE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        taskId: updateId,
+      })
     });
+    if (!response.ok) {
+      console.error("Error updating daily task");
+    } else {
+      console.log("Daily task updated successfully");
+      console.log("Response:", response);
+    }
   };
 
   const formatDate = (date: Date): string => {
@@ -42,10 +50,10 @@ const DailyTaskList: React.FC = () => {
   return (
     <div className="w-full space-y-2 pt-4">
       <div className="flex flex-col">
-        <h2 className="text-lg font-semibold">{formatDate(taskData.tanggal)}</h2>
+        <h2 className="text-lg font-semibold">{formatDate(tanggal)}</h2>
       </div>
       <div className="space-y-2">
-        {taskData.dailyTask.map((task, index) => (
+        {dailyTask.map((task, index) => (
           <TaskItem 
             key={index} 
             title={task.title} 
