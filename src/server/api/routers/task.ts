@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DailyTaskProps } from "~/app/_types/types";
 
 import {
   createTRPCRouter,
@@ -15,7 +16,7 @@ export const taskRouter = createTRPCRouter({
       });
 
       // Group by date
-      const tasksByDate = dailyTasks.reduce((groups: Record<string, any[]>, task) => {
+      const tasksByDate = dailyTasks.reduce((groups: Record<string, DailyTaskProps[]>, task) => {
         const dateKey = task.date.toISOString().split('T')[0] || 0;
 
         if (!groups[dateKey]) groups[dateKey] = [];
@@ -23,7 +24,7 @@ export const taskRouter = createTRPCRouter({
         groups[dateKey].push({
           id: task.id,
           title: task.title,
-          description: task.description,
+          description: task.description ?? "",
           status: task.status ?? false,
         });
 

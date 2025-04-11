@@ -58,7 +58,7 @@ const DailyTaskList = ({
             key={index} 
             title={task.title} 
             description={task.description} 
-            isChecked={task.isChecked} 
+            isChecked={task.status} 
             onToggle={() => handleToggle(index)} 
           />
         ))}

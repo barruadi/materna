@@ -12,9 +12,16 @@ export interface TaskWrapperProps {
         id: string;
         title: string;
         description: string;
-        isChecked: boolean;
+        status: boolean;
     } [];
 };
+
+export interface DailyTaskProps {
+    id: string;
+    title: string;
+    description: string;
+    status: boolean;
+}
 
 // History Pasien
 export interface HistoryUserProps {
