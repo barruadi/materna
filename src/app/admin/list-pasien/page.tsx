@@ -8,7 +8,6 @@ import AddPatientButton from "~/app/_components/admin/add-patient-button";
 import SidebarDesktop from "~/app/_components/admin/sidebar";
 import Topbar from "~/app/_components/admin/topbar";
 
-const { Header } = Layout;
 const { Search } = Input;
 
 interface ListPasienProps {
