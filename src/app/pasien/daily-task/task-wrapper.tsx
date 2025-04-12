@@ -1,41 +1,33 @@
 "use client"
 
-import { useState } from "react";
-
 // Interface
 import { TaskWrapperProps } from "../../_types/types";
 
 // Components
 import TaskItem from "~/app/_components/user/daily-task";
 
-// Dummy Data
-import { dummyTaskData } from "../../_data/dummy";
+import { api } from "~/trpc/react";
 
 
 const DailyTaskList = ({
   tanggal,
   dailyTask
 }: TaskWrapperProps) => {
+  const { mutate: toggleTaskStatus, error } = api.task.setTaskStatus.useMutation();
 
-  const handleToggle = async (index: number) => {
-    const updateId = dailyTask[index]?.id;
+  function handleClick(taskId: string) {
+    toggleTaskStatus({ taskId });
+    const index = dailyTask.findIndex(task => task.id === taskId);
 
-    const response = await fetch("/api/pasien/dailytask", {
-      method: "UPDATE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        taskId: updateId,
-      })
-    });
-    if (!response.ok) {
-      console.error("Error updating daily task");
+    if (index !== -1) {
+      if (dailyTask[index] !== undefined) {
+        dailyTask[index].status = !dailyTask[index].status;
+        console.log('Updated task:', dailyTask[index]);
+      }
     } else {
-      console.log("Daily task updated successfully");
-      console.log("Response:", response);
+      console.log('Task not found.');
     }
-  };
+  }
 
   const formatDate = (date: Date): string => {
     const day = date.getDate();
@@ -44,8 +36,6 @@ const DailyTaskList = ({
     
     return `${day} ${month} ${year}`;
   };
-
-  // api query
 
   return (
     <div className="w-full space-y-2 pt-4">
@@ -59,7 +49,7 @@ const DailyTaskList = ({
             title={task.title} 
             description={task.description} 
             isChecked={task.status} 
-            onToggle={() => handleToggle(index)} 
+            onToggle={() => handleClick(task.id)} 
           />
         ))}
       </div>
