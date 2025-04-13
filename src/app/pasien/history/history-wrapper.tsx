@@ -6,8 +6,6 @@ import HistoryUser from "~/app/_components/user/history-user";
 
 import { HistoryUserWrapperProps } from "~/app/_types/types";
 
-import { dummyHistoryUserWrapperData } from "~/app/_data/dummy";
-
 const HistoryWrapper = ({
     tanggal,
     history
@@ -21,7 +19,7 @@ const HistoryWrapper = ({
     };
 
     return (
-        <>
+        <div className="flex flex-col w-full">
             <div className="flex items-center">
                 <div className="w-5 h-5 bg-gray-400 rounded-full mr-2"></div>
                 <h2 className="text-lg font-semibold">    
@@ -39,7 +37,7 @@ const HistoryWrapper = ({
                     />
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
