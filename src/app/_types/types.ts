@@ -41,3 +41,15 @@ export type MenuBarUserProps = {
 export interface HeaderUserProps {
     title?: string;
 }
+
+export type QRData = {
+    nama: string;
+    nik: number;
+    tanggalLahir: string;
+    golonganDarah: string;
+    kontak: number;
+    alamat?: string;
+    suamiNama: string;
+    suamiKontak: number;
+    riwayatPenyakit?: string[];
+  };

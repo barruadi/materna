@@ -11,7 +11,6 @@ import { api } from "~/trpc/react";
 import { useSession } from "next-auth/react";
 
 
-const { Header } = Layout;
 const { Search } = Input;
 
 interface ListPasienProps {

@@ -35,7 +35,7 @@ function ProfilePasien() {
             </Text> 
 
             <Space direction="vertical" style={{ display: 'flex', gap: '24px' }}>
-                <Button type="primary" href='/pasien' icon={<QrcodeOutlined/>} block iconPosition='end'>
+                <Button type="primary" href='/pasien/scanqr' icon={<QrcodeOutlined/>} block iconPosition='end'>
                     Pindai QR Code
                 </Button>
                 
