@@ -13,8 +13,6 @@ import LainnyaForm from '~/app/_components/admin/riwayat-form/LainnyaForm';
 import RiwayatBasicForm from '../../_components/admin/riwayat-form/RiwayatBasicForm';
 import Topbar from '../../_components/admin/topbar';
 import SidebarDesktop from '../../_components/admin/sidebar';
-
-import SpeechRecognitionForm from "../../_components/admin/riwayat-form/speechRecognationForm";
 import { useRouter } from 'next/navigation';
 
 const { Step } = Steps;
