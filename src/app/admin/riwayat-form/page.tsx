@@ -13,7 +13,9 @@ import LainnyaForm from '~/app/_components/admin/riwayat-form/LainnyaForm';
 import RiwayatBasicForm from '../../_components/admin/riwayat-form/RiwayatBasicForm';
 import Topbar from '../../_components/admin/topbar';
 import SidebarDesktop from '../../_components/admin/sidebar';
-import { useRouter } from 'next/router';
+
+import SpeechRecognitionForm from "../../_components/admin/riwayat-form/speechRecognationForm";
+import { useRouter } from 'next/navigation';
 
 const { Step } = Steps;
 //const router = useRouter();
@@ -24,6 +26,7 @@ const RiwayatForm: React.FC = () => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
 
   const steps = [
     {
@@ -32,7 +35,7 @@ const RiwayatForm: React.FC = () => {
     },
     {
       title: 'Pemeriksaan',
-      content: <PemeriksaanForm form={form} formData={formData} />,
+      content: <PemeriksaanForm form={form} formData={formData}/>,
     },
     {
       title: 'Pelayanan',
@@ -120,8 +123,8 @@ const RiwayatForm: React.FC = () => {
         // Reset form and state
         form.resetFields();
         setFormData({});
-        setCurrentStep(0);
-        //router.push('/admin');
+        // setCurrentStep(0);
+        router.push('/admin');
       } else {
         message.error(`Gagal menyimpan data: ${result.message || 'Terjadi kesalahan'}`);
       }

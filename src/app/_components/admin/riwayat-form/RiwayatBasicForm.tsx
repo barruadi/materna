@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, DatePicker } from 'antd';
 import type { SelectProps } from 'antd';
 import dayjs from 'dayjs';
+import { useSession } from "next-auth/react";
+import { api } from "~/trpc/react";
 
 interface RiwayatBasicFormProps {
   form: any;
@@ -15,6 +17,15 @@ const RiwayatBasicForm: React.FC<RiwayatBasicFormProps> = ({ form, formData }) =
   const [loadingPasien, setLoadingPasien] = useState(false);
   const [loadingNakes, setLoadingNakes] = useState(false);
   const [loadingFaskes, setLoadingFaskes] = useState(false);
+
+  const { data: session } = useSession();
+  console.log("ini session",session);
+
+  const userId = session?.user?.id;
+  console.log("User ID:", userId);
+
+  const { data: tenakes, isLoading: nakesLoading } = api.nakes.getCurrentNakes.useQuery();
+  console.log("nakesss", tenakes);
 
   useEffect(() => {
     // Fetch pasien data
@@ -42,9 +53,13 @@ const RiwayatBasicForm: React.FC<RiwayatBasicFormProps> = ({ form, formData }) =
       try {
         const response = await fetch('/api/riwayat/nakes');
         const result = await response.json();
+        console.log("result api/riwayat/nakes", result);
         
         if (result.success) {
-          setNakesOptions(result.data);
+          const filtered = result.data.find((nakes: any) => nakes.value === tenakes?.id);
+          console.log("nakes id untuk filter", tenakes?.id);
+          console.log("filtered nakes", filtered);
+          setNakesOptions([{label: tenakes?.nama, value: tenakes?.id}]);
         } else {
           console.error('Failed to load nakes data:', result.message);
         }
@@ -63,7 +78,7 @@ const RiwayatBasicForm: React.FC<RiwayatBasicFormProps> = ({ form, formData }) =
         const result = await response.json();
         
         if (result.success) {
-          setFaskesOptions(result.data);
+          setFaskesOptions([{label: tenakes?.faskes.namaFaskes, value: tenakes?.faskesId}]);
         } else {
           console.error('Failed to load faskes data:', result.message);
         }

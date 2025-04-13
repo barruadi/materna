@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { db } from "~/server/db";
 import { hash } from "bcrypt";
+import { bigint } from "zod";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { 
         email, 
-        username, 
+        nama, 
         password,
         nip,
         kontak, 
@@ -37,10 +38,10 @@ export async function POST(req: Request) {
     const user = await db.nakes.create({ 
       data: {
         email: email,
-        nama: username,
-        nip: Number(nip),
+        nama: nama,
+        nip: BigInt(nip) as bigint,
         password: hashedPassword,
-        kontak: Number(kontak),
+        kontak: BigInt(kontak) as bigint,
         faskesId: faskesId,
       }
     });

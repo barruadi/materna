@@ -7,17 +7,26 @@ import DeleteButton from "~/app/_components/admin/delete-button";
 import AddPatientButton from "~/app/_components/admin/add-patient-button";
 import SidebarDesktop from "~/app/_components/admin/sidebar";
 import Topbar from "~/app/_components/admin/topbar";
+import { api } from "~/trpc/react";
+import { useSession } from "next-auth/react";
+
 
 const { Header } = Layout;
 const { Search } = Input;
 
 interface ListPasienProps {
-  id: string; 
-  name: string;
-  gestational_age: number;
-  last_visit: string;
-  status: string;
+  key: string;
+  id: string;
+  nama: string;
+  umur: number;
+  golonganDarah: string;
+  statusResiko: string;
+  jadwalKunjungan: string;
+  tanggalLahir: string;
+  kontak: string;
+  lastVisit: string;
 }
+
 
 const columns: TableProps<ListPasienProps>["columns"] = [
   {
@@ -36,9 +45,8 @@ const columns: TableProps<ListPasienProps>["columns"] = [
   },
   {
     title: "Nama",
-    dataIndex: "name",
-    key: "name",
-    render: (text) => <a>{text}</a>,
+    dataIndex: "nama",
+    key: "nama",
     onHeaderCell: () => {
       return {
         style: {
@@ -50,10 +58,9 @@ const columns: TableProps<ListPasienProps>["columns"] = [
     },
   },
   {
-    title: "Usia Kehamilan",
-    dataIndex: "gestational_age",
-    key: "gestational_age",
-    render: (age) => <p>{age} bulan</p>,
+    title: "Umur",
+    dataIndex: "umur",
+    key: "umur",
     onHeaderCell: () => {
       return {
         style: {
@@ -63,11 +70,12 @@ const columns: TableProps<ListPasienProps>["columns"] = [
         },
       };
     },
+    render: (umur) => <p>{umur} tahun</p>,
   },
   {
-    title: "Kunjungan Terakhir",
-    dataIndex: "last_visit",
-    key: "last_visit",
+    title: "Golongan Darah",
+    dataIndex: "golonganDarah",
+    key: "golonganDarah",
     onHeaderCell: () => {
       return {
         style: {
@@ -80,8 +88,15 @@ const columns: TableProps<ListPasienProps>["columns"] = [
   },
   {
     title: "Status",
-    key: "status",
-    dataIndex: "status",
+    dataIndex: "statusResiko",
+    key: "statusResiko",
+    render: (status) => {
+      let color = "default";
+      if (status === "Resiko Rendah") color = "green";
+      else if (status === "Resiko Sedang") color = "yellow";
+      else if (status === "Resiko Tinggi") color = "red";
+      return <Tag color={color}>{status}</Tag>;
+    },
     onHeaderCell: () => {
       return {
         style: {
@@ -91,36 +106,25 @@ const columns: TableProps<ListPasienProps>["columns"] = [
         },
       };
     },
-    render: (status) => {
-      let color = "default";
-      switch (status) {
-        case "Resiko Rendah":
-          color = "green";
-          break;
-        case "Resiko Sedang":
-          color = "yellow";
-          break;
-        case "Resiko Tinggi":
-          color = "red";
-          break;
-        default:
-          color = "default";
-      }
-      return <Tag color={color}>{status}</Tag>;
+  },
+  {
+    title: "Kunjungan Terakhir",
+    dataIndex: "lastVisit",
+    key: "lastVisit",
+    render: (value) => new Date(value).toLocaleDateString(),
+    onHeaderCell: () => {
+      return {
+        style: {
+          backgroundColor: '#FFD96C',
+          color: 'black',
+          fontWeight: 'bold',
+        },
+      };
     },
   },
   {
     title: "Aksi",
     key: "action",
-    onHeaderCell: () => {
-      return {
-        style: {
-          backgroundColor: '#FFD96C',
-          color: 'black',
-          fontWeight: 'bold',
-        },
-      };
-    },
     render: (_, record) => (
       <Space size="middle">
         <a className="text-blue-600">Detail</a>
@@ -130,14 +134,31 @@ const columns: TableProps<ListPasienProps>["columns"] = [
         <DeleteButton />
       </Space>
     ),
+    onHeaderCell: () => {
+      return {
+        style: {
+          backgroundColor: '#FFD96C',
+          color: 'black',
+          fontWeight: 'bold',
+        },
+      };
+    },
   },
-  
 ];
 
 const ListPasien: React.FC = () => {
   const [data, setData] = useState<ListPasienProps[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
+
+  const { data: session } = useSession();
+  console.log("ini session",session);
+
+  const userId = session?.user?.id;
+  console.log("User ID:", userId);
+
+  const { data: pasienData, isLoading: isLoadingPasien } = api.nakes.getPasienDariRiwayat.useQuery();
+
 
   useEffect(() => {
     setIsClient(true);
@@ -180,16 +201,16 @@ const ListPasien: React.FC = () => {
         </div>
         
 
-        {loading || data === null ? (
+        {isLoadingPasien || !pasienData ? (
           <div className="flex justify-center items-center py-4">
             <Spin size="large" />
           </div>
         ) : (
           <Table<ListPasienProps>
             columns={columns}
-            dataSource={data}
-            className="p-4" 
-            pagination={{position: ["bottomCenter"],}}
+            dataSource={pasienData}
+            className="p-4"
+            pagination={{ position: ["bottomCenter"] }}
           />
         )}
       </div>

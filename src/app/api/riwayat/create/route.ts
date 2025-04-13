@@ -3,11 +3,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import dayjs from 'dayjs';
 
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { z } from "zod";
+import { TRPCError } from "@trpc/server";
+import { useSession } from 'next-auth/react';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '~/trpc/server';
+
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
+
+    console.log("Data received:", data);
     
     // Convert date strings to Date objects
     const createdAt = data.createdAt ? dayjs(data.createdAt).toDate() : new Date();
@@ -17,9 +26,9 @@ export async function POST(req: NextRequest) {
     
     const riwayat = await prisma.riwayat.create({
         data: {
-          pasienId: "cm9a1vkuc0001sbqv5wzq5i4z",
-          nakesId: "tolol",
-          faskesId: "rafif",
+          pasienId: data.pasienId,
+          nakesId: data.nakesId,
+          faskesId: data.faskesId,
           createdAt: createdAt,
           pemeriksaan: {
             create: {
