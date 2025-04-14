@@ -48,8 +48,8 @@ const AdsSlider: FC = () => {
   return (
     <div className="relative w-full">
       <Swiper
-        spaceBetween={5} // Reduced space between slides
-        slidesPerView={2.3} // Increased slides per view to show more products
+        spaceBetween={1} // Reduced space between slides
+        slidesPerView={2.7} // Increased slides per view to show more products
         pagination={{ 
           clickable: true,
           el: '.custom-pagination',
@@ -65,7 +65,7 @@ const AdsSlider: FC = () => {
       </Swiper>
       
       {/* Custom Pagination Container with more space */}
-      <div className="custom-pagination mt-3 gap-x-1 flex justify-center"></div>
+      <div className="custom-pagination my-3 gap-x-1 flex justify-center"></div>
     </div>
   );
 };

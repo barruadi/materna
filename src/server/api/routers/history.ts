@@ -48,4 +48,13 @@ export const historyRouter = createTRPCRouter({
             });
         return history;
     }),
+
+    getNakesByHistoyId: publicProcedure
+        .input(z.object({ id: z.string() }))
+        .query(async ({ input, ctx }) => {
+            const nakes = await ctx.db.nakes.findUnique({
+                where: { id: input.id },
+        });
+        return nakes;
+    }),
 })

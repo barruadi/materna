@@ -10,14 +10,10 @@ import { DailyTaskProps } from "~/app/_types/types";
 function DailyTasksPage () {
 
   const {data: session} = useSession();
-  console.log("Session:", session);
-  const userId = session?.user?.id;
-  console.log("User ID:", userId);
 
   const { data: groupedTasks, isLoading } = api.task.getTasksByPatient.useQuery({
-    pasienId: session?.user?.id || "cm9a1vkuc0001sbqv5wzq5i4z",
+    pasienId: session?.user?.id || "",
   });
-  console.log(groupedTasks);
 
   if (groupedTasks === undefined) {
     return (

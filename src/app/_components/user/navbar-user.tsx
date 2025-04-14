@@ -11,8 +11,8 @@ export const NavbarUser = () => {
 
   const menuItems = [
     { id: "home", text: "Beranda", defaultSrc: "/Home.svg", activeSrc: "/Home-active.svg", href: "/pasien" },
-    { id: "todo", text: "To Do", defaultSrc: "/ToDo.svg", activeSrc: "/Discover-active.svg", href: "/pasien/daily-task" },
-    { id: "riwayat", text: "Riwayat", defaultSrc: "/History.svg", activeSrc: "/Profile-active.svg", href: "/pasien/history" },
+    { id: "todo", text: "To Do", defaultSrc: "/ToDo.svg", activeSrc: "/ToDo.svg", href: "/pasien/daily-task" },
+    { id: "riwayat", text: "Riwayat", defaultSrc: "/History.svg", activeSrc: "/History.svg", href: "/pasien/history" },
   ];
 
   return (

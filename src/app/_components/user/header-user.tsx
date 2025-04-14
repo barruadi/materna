@@ -9,11 +9,18 @@ import { useSession } from "next-auth/react";
 import { 
   UserOutlined,
 } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
 
 const HeaderUser = ({ title: propsTitle }: HeaderUserProps) => {
   const { data: session } = useSession();
   const pathname = usePathname();
-  
+
+  const router = useRouter();
+
+  const handleProfile = () => {
+    router.push('/pasien/profile');
+  };
+
   const pathSegments = pathname.split('/').filter(Boolean);
   const lastSegment = pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : null;
   
@@ -27,11 +34,11 @@ const HeaderUser = ({ title: propsTitle }: HeaderUserProps) => {
   
   const title = propsTitle || (lastSegment ? formatTitle(lastSegment) : null);
   return (
-    <div className="fixed top-0 w-full bg-amber-50 flex flex-row items-center p-2 px-4 rounded-xl border-none h-20 justify-between">
+    <div className="fixed top-0 w-full z-50 bg-amber-50 flex flex-row items-center p-2 px-4 rounded-xl border-none h-20 justify-between">
       {!title && (
         <>
           <div className="flex items-center space-x-4 flex-grow">
-          <button className="w-10 h-10 flex items-center justify-center bg-gray-300 rounded-full">
+          <button className="w-10 h-10 flex items-center justify-center bg-gray-300 rounded-full" onClick={handleProfile}>
             <UserOutlined className="text-white text-xl" />
           </button>
           <div>

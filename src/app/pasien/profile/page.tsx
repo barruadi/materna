@@ -14,30 +14,39 @@ import {
     QrcodeOutlined
 } from '@ant-design/icons';
 
+import { api } from '~/trpc/react';
+
 import { useState } from 'react';
 
 const { Text, Title } = Typography;
 
+import { useSession } from 'next-auth/react';
+
 function ProfilePasien() {
-
+    const { data: session } = useSession();
     const [editable, setEditable] = useState<boolean>(false);
+    const name = session?.user.name;
 
-    const [nik, setNik] = useState<number>(0);
+    const {data: data, isLoading} =  api.pasien.getPasienDetail.useQuery({
+        pasienId: session?.user?.id || "",
+    })
 
     return (
-        <div className="flex flex-col justify-center m-6">
+        <div className="flex flex-col justify-center m-6 w-full item">
             <Avatar size={128} icon={<UserOutlined/>}/>
-            <Title level={2}>
-                Nama Pasien
+            <Title level={2} style={{ margin: 0, textAlign: 'center', marginTop: '16px', marginBottom: '16px' }}>
+                {name}
             </Title>
-            <Text>
-                Anda Sudah Terdaftar BPJS    
-            </Text> 
 
             <Space direction="vertical" style={{ display: 'flex', gap: '24px' }}>
-                <Button type="primary" href='/pasien/scanqr' icon={<QrcodeOutlined/>} block iconPosition='end'>
-                    Pindai QR Code
-                </Button>
+                <Space direction="vertical" style={{ display: 'flex', gap: '4px' }}>
+                    <Button type="primary" href='/pasien/scanqr' icon={<QrcodeOutlined/>} block iconPosition='end'>
+                        Pindai QR Code
+                    </Button>
+                    <div className="text-center text-xs text-gray-500">
+                        Anda sudah terdaftar BPJS
+                    </div>
+                </Space>
                 
                 {/* Biodata Diri */}
                 <Space direction="horizontal" style={{ display: 'flex' }}>
@@ -48,13 +57,13 @@ function ProfilePasien() {
                 </Space>
                 <Space direction="vertical" style={{ display: 'flex' }}>
                     <Text>NIK</Text>
-                    <Input placeholder="NIK" defaultValue="test" disabled={editable}/>
+                    <Input placeholder="NIK" defaultValue={Number(data?.nik)} disabled={editable}/>
                     <Text>Tanggal Lahir</Text>
-                    <Input placeholder="1 Januari 2000" defaultValue="test"/>
+                    <Input placeholder="1 Januari 2000" defaultValue={String(data?.tanggalLahir)}/>
                     <Text>Golongan Darah</Text>
-                    <Input placeholder="O" defaultValue="test"/>
+                    <Input placeholder="O" defaultValue={data?.golonganDarah}/>
                     <Text>Kontak</Text>
-                    <Input placeholder="08123456789" defaultValue="test"/>
+                    <Input placeholder="08123456789" defaultValue={Number(data?.kontak)}/>
                 </Space>
 
                 {/* Keterangan Suami */}

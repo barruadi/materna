@@ -28,4 +28,13 @@ export const pasienRouter = createTRPCRouter({
     getAllPasien: publicProcedure.query(async () => {
       return db.pasien.findMany();
     }),
+
+    getPasienDetail: publicProcedure
+      .input(z.object({ pasienId: z.string() }))
+      .query(async ({ input }) => {
+        const data = await db.pasien.findUnique({
+          where: { id: input.pasienId },
+        });
+        return data;
+      }),
   });
