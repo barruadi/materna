@@ -4,7 +4,7 @@ import AdsSlider from "~/app/_components/user/ads-slider";
 
 import { api } from "~/trpc/server";
 
-import { auth } from "../api/auth/[...nextauth]/route";
+import { auth } from "~/server/auth";
 
 const App: React.FC = async () => {
   

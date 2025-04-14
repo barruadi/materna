@@ -1,6 +1,6 @@
 import { api } from "~/trpc/server";
 
-import { auth } from "~/app/api/auth/[...nextauth]/route";
+import { auth } from "~/server/auth";
 
 import HistoryWrapper from "./history-wrapper";
 import { HistoryUserProps } from "~/app/_types/types";
