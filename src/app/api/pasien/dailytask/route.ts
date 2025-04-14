@@ -83,27 +83,3 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: "Daily Task get failed" }, { status: 500 });
     }
 }
-
-export async function UPDATE(req: Request) {
-    try {
-        const body = await req.json();
-        const { taskId } = JSON.parse(body);
-
-        // update daily task
-        const dailyTask = await db.dailyTasks.update({ 
-            where: {
-                id: taskId,
-            },
-            data: {
-                status: true,
-            }
-        });
-
-        return NextResponse.json(
-            {dailyTask, message: "updated success"},
-            {status: 201 }
-        );
-    } catch (error) {
-        return NextResponse.json({ error: "Daily Task update failed" }, { status: 500 });
-    }
-}
