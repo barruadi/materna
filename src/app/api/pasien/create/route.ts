@@ -54,6 +54,7 @@ export async function POST(req: Request) {
       {status: 201 }
     );
   } catch (error) {
-    return NextResponse.json({ error: "User creation failed" }, { status: 500 });
+    console.error("Error saat create user:", error); // <--- Tambahkan log ini
+  return NextResponse.json({ error: "User creation failed" }, { status: 500 });
   }
 }

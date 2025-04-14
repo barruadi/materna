@@ -10,7 +10,7 @@ import { signIn } from "next-auth/react";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState("pasien"); // <-- ADD THIS
+  const [type, setType] = useState("nakes"); // <-- ADD THIS
   const router = useRouter();
 
   const handleLogin = async (e: FormEvent) => {
@@ -28,7 +28,7 @@ export default function LoginPage() {
         if (type === "pasien") {
             router.push("/pasien");
         } else if (type === "nakes") {
-            router.push("/nakes");
+            router.push("/admin");
         }
     }
 }
