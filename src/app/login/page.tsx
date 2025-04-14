@@ -15,7 +15,6 @@ export default function LoginPage() {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Login type: ", type);
 
     const signInData = await signIn(type, {
         email: email,

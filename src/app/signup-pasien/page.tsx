@@ -15,35 +15,30 @@ import {
   TeamOutlined, 
   UserOutlined 
 } from '@ant-design/icons';
+import { api } from '~/trpc/react';
 
 export default function SignupPage() {
 
   const [form] = Form.useForm();
 
-const handleSignup = async (values: any) => {
-  console.log("Form values:", values);
+  const createPasienMutation = api.pasien.createPasien.useMutation();
 
-  const response = await fetch("/api/pasien/create", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const handleSignup = async (values: any) => {
+  try {
+    const response = await createPasienMutation.mutateAsync({
       email: values.Email,
-      username: values.Nama,
       password: values.Password,
-      nik: values.NIK,
-      tanggalLahir: values.TanggalLahir,
+      nama: values.Nama,
+      nik: Number(values.NIK),
+      tanggalLahir: values.TanggalLahir.format("YYYY-MM-DD"), // Format ISO (YYYY-MM-DD)
+      kontak: Number(values.Kontak),
       golonganDarah: values.GolonganDarah,
-      kontak: values.Kontak,
-    }),
-  });
-
-  if (!response.ok) {
-    console.log("Error");
-  } else {
-    const data = await response.json();
-    console.log("Success:", data);
+    });
+    alert("Pendaftaran berhasil!");
+  } catch (error) {
+    console.error("Registration failed:", error);
   }
-};
+  };
 
 
   const OpsiGolDar = [

@@ -16,6 +16,8 @@ import {
 
 import { api } from '~/trpc/react';
 
+import { signOut } from 'next-auth/react';
+
 import { useState } from 'react';
 
 const { Text, Title } = Typography;
@@ -32,8 +34,10 @@ function ProfilePasien() {
     })
 
     return (
-        <div className="flex flex-col justify-center m-6 w-full item">
-            <Avatar size={128} icon={<UserOutlined/>}/>
+        <div className="flex flex-col justify-center m-6 w-full item pb-24">
+            <div className="flex justify-center">
+                <Avatar size={128} icon={<UserOutlined/>}/>
+            </div>
             <Title level={2} style={{ margin: 0, textAlign: 'center', marginTop: '16px', marginBottom: '16px' }}>
                 {name}
             </Title>
@@ -80,6 +84,11 @@ function ProfilePasien() {
                     <Input placeholder="1 Januari 2000" defaultValue="test"/>
                 </Space>
             </Space>
+
+            <button onClick={() => signOut({
+                redirect: true,
+                callbackUrl: "/",
+            })} className='w-full rounded-md bg-red-500 text-white mt-8 py-1'>signOut</button>
         </div>
     )
 }
