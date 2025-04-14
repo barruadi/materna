@@ -5,14 +5,16 @@ export const dummyTaskData: TaskWrapperProps = {
     tanggal: new Date(),
     dailyTask: [
         {
+            id: "1",
             title: "Take prenatal vitamins",
             description: "Take your daily prenatal vitamin",
-            isChecked: false,
+            status: false,
         },
         {
+            id: "2",
             title: "Drink 8 glasses of water",
             description: "Stay hydrated throughout the day",
-            isChecked: false,
+            status: false,
         },
     ]
 };

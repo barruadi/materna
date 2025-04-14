@@ -11,6 +11,7 @@ export default function PasienForm() {
     nik: "",
     tanggalLahir: "",
     fotoProfil: "",
+    kontak: "",
     golonganDarah: "",
   });
 
@@ -26,7 +27,8 @@ export default function PasienForm() {
     e.preventDefault();
     createPasien.mutate({
       ...form,
-      nik: Number(form.nik), // Pastikan `nik` berupa angka
+      nik: Number(form.nik), 
+      kontak: Number(form.kontak), 
     });
   };
 

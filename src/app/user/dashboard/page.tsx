@@ -27,7 +27,6 @@ const App: React.FC = () => {
       <div>
         <h2 className="font-bold">Kegiatan Hari Ini</h2>
         <div className="my-1 space-y-2">
-          <DailyTaskList/>
         </div>
       </div>
 

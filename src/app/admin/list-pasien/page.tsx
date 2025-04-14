@@ -20,11 +20,11 @@ interface ListPasienProps {
   umur: number;
   golonganDarah: string;
   statusResiko: string;
-  jadwalKunjungan: string;
-  tanggalLahir: string;
-  kontak: string;
-  lastVisit: string;
-}
+  jadwalKunjungan: Date;
+  tanggalLahir: Date;
+  kontak: bigint;
+  lastVisit: Date;
+} 
 
 
 const columns: TableProps<ListPasienProps>["columns"] = [
