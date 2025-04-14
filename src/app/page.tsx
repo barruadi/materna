@@ -1,22 +1,14 @@
-import { auth } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
-import { NavbarUser } from "~/app/_components/user/navbar-user";
-import AdsSlider from "./_components/user/ads-slider";
-import HistoryUser from "./_components/user/history-user";
-
 export default async function Home() {
-  const session = await auth();
-
-  function setInputText(value: string): void {
-    throw new Error("Function not implemented.");
-  }
-
   return (
-    <div>
-      <div className="space-y-3 p-4">
-      </div>
-      <AdsSlider />
-      <NavbarUser />
+    <div className="border flex flex-col items-center justify-center min-h-screen">
+        <h1 className="font-black text-xl">Selamat datang di</h1>
+        <img src="/logo-full.svg" alt="" className="mt-2" />
+        <a href="/login?type=pasien" className="bg-[#FFE5A6] px-7 py-2 w-fit rounded-xl mt-4">
+            Masuk sebagai Pasien
+        </a>
+        <a href="/login?type=nakes" className="bg-[#FFE5A6] px-7 py-2 w-fit rounded-xl mt-4">
+            Masuk sebagai Nakes
+        </a>
     </div>
   );
 }

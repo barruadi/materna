@@ -22,7 +22,6 @@ const DailyTaskList = ({
     if (index !== -1) {
       if (dailyTask[index] !== undefined) {
         dailyTask[index].status = !dailyTask[index].status;
-        console.log('Updated task:', dailyTask[index]);
       }
     } else {
       console.log('Task not found.');
@@ -36,6 +35,14 @@ const DailyTaskList = ({
     
     return `${day} ${month} ${year}`;
   };
+
+  if (dailyTask.length === 0) {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="text-md pt-4">No tasks available</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full space-y-2 pt-4">

@@ -10,7 +10,7 @@ import { signIn } from "next-auth/react";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState("nakes"); // <-- ADD THIS
+  const [type, setType] = useState("nakes"); 
   const router = useRouter();
 
   const handleLogin = async (e: FormEvent) => {
@@ -26,6 +26,7 @@ export default function LoginPage() {
     } else {
         console.log("Login success");
         if (type === "pasien") {
+            console.log("Login pasien success");
             router.push("/pasien");
         } else if (type === "nakes") {
             router.push("/admin");
@@ -48,7 +49,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
-      <h1 className="text-2xl font-bold">Login</h1>
+      <h1 className="text-2xl font-bold">Login {type}</h1>
       <input
         type="email"
         placeholder="Email"

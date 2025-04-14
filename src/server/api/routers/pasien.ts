@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
+import { hash } from "bcrypt";
 
 export const pasienRouter = createTRPCRouter({
     createPasien: publicProcedure
@@ -20,6 +21,7 @@ export const pasienRouter = createTRPCRouter({
         return db.pasien.create({
           data: {
             ...input,
+            password: await hash(input.password, 10),
             tanggalLahir: new Date(input.tanggalLahir), // Konversi string ke Date
           },
         });
@@ -28,4 +30,13 @@ export const pasienRouter = createTRPCRouter({
     getAllPasien: publicProcedure.query(async () => {
       return db.pasien.findMany();
     }),
+
+    getPasienDetail: publicProcedure
+      .input(z.object({ pasienId: z.string() }))
+      .query(async ({ input }) => {
+        const data = await db.pasien.findUnique({
+          where: { id: input.pasienId },
+        });
+        return data;
+      }),
   });

@@ -9,29 +9,26 @@ import { auth } from "~/server/auth";
 const App: React.FC = async () => {
   
   const session = await auth();
-  console.log(session);
-  console.log("session", session?.user.name);
-  console.log("session", session?.user.id);
 
   const data = await api.task.getTaskByPatientToday({
-    pasienId: session?.user.id || "cm9a1vkuc0001sbqv5wzq5i4z",
+    pasienId: session?.user.id || "",
   })
 
   return (
-    <div className="grid grid-cols-1 gap-y-4 w-screen border h-fit items-start pb-12">
+    <div className="grid grid-cols-1 gap-y-4 w-screen h-fit items-start pb-12">
       {/* Grafik Perkembangan */}
       <div>
-        <h2 className="font-bold">Perkembangan</h2>
-        <div className="bg-[#FFF9C2] h-28 rounded-lg">
-          grafik
+        <h2 className="font-bold my-2 text-[16px]">Perkembangan</h2>
+        <div className="bg-[#FFF9C2] rounded-lg h-fit">
+          <img src="./static-graph.svg" alt="static" className="items-center justify-center w-full"/>
         </div>
       </div>
 
       {/* Fun Fact */}
       <div className="px-3 py-2 bg-[#FFFDEE] rounded-lg h-fit">
         <b className="text-[13px]">Fakta Unik Hari Ini</b>
-        <div className="flex flex-row my-2 gap-x-2 text-[11px] leading-tight">
-          <img src="/logo.svg" alt="" />
+        <div className="flex flex-row mt-2 gap-x-2 text-[11px] leading-tight">
+          <img src="/ibu-icon.svg" alt="" className="bg-[#FFF9C2] rounded-md"/>
           <p>Banyak ibu hamil mengalami peningkatan sensitivitas penciuman karena perubahan hormon.</p>
         </div>
       </div>
@@ -49,7 +46,7 @@ const App: React.FC = async () => {
 
       {/* Rekomendasi Produk */}
       <div>
-        <h2 className="font-bold mb-1">Rekomendasi Produk</h2>
+        <h2 className="font-bold mb-1 text-[16px] pb-2">Rekomendasi Produk</h2>
         <AdsSlider/>
       </div>
     </div>
