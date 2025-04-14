@@ -1,33 +1,33 @@
 "use client"
 
-import { useState } from "react";
-
 // Interface
 import { TaskWrapperProps } from "../../_types/types";
 
 // Components
 import TaskItem from "~/app/_components/user/daily-task";
 
-// Dummy Data
-import { dummyTaskData } from "../../_data/dummy";
+import { api } from "~/trpc/react";
 
 
-const DailyTaskList: React.FC = () => {
-  const [taskData, setTaskData] = useState<TaskWrapperProps>(dummyTaskData);
+const DailyTaskList = ({
+  tanggal,
+  dailyTask
+}: TaskWrapperProps) => {
+  const { mutate: toggleTaskStatus, error } = api.task.setTaskStatus.useMutation();
 
-  const handleToggle = (index: number) => {
-    const updatedTasks = [...taskData.dailyTask];
-    updatedTasks[index] = {
-      title: updatedTasks[index]?.title || "",
-      description: updatedTasks[index]?.description || "",
-      isChecked: !updatedTasks[index]?.isChecked || false
-    };
-    
-    setTaskData({
-      ...taskData,
-      dailyTask: updatedTasks
-    });
-  };
+  function handleClick(taskId: string) {
+    toggleTaskStatus({ taskId });
+    const index = dailyTask.findIndex(task => task.id === taskId);
+
+    if (index !== -1) {
+      if (dailyTask[index] !== undefined) {
+        dailyTask[index].status = !dailyTask[index].status;
+        console.log('Updated task:', dailyTask[index]);
+      }
+    } else {
+      console.log('Task not found.');
+    }
+  }
 
   const formatDate = (date: Date): string => {
     const day = date.getDate();
@@ -37,21 +37,19 @@ const DailyTaskList: React.FC = () => {
     return `${day} ${month} ${year}`;
   };
 
-  // api query
-
   return (
     <div className="w-full space-y-2 pt-4">
       <div className="flex flex-col">
-        <h2 className="text-lg font-semibold">{formatDate(taskData.tanggal)}</h2>
+        <h2 className="text-lg font-semibold">{formatDate(tanggal)}</h2>
       </div>
       <div className="space-y-2">
-        {taskData.dailyTask.map((task, index) => (
+        {dailyTask.map((task, index) => (
           <TaskItem 
             key={index} 
             title={task.title} 
             description={task.description} 
-            isChecked={task.isChecked} 
-            onToggle={() => handleToggle(index)} 
+            isChecked={task.status} 
+            onToggle={() => handleClick(task.id)} 
           />
         ))}
       </div>

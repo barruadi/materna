@@ -1,6 +1,8 @@
 import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { pasienRouter } from "./routers/pasien";
+import { taskRouter } from "./routers/task";
+import { historyRouter } from "./routers/history";
 import { nakesRouter } from "./routers/nakes";
 import { riwayatRouter } from "./routers/riwayat";
 
@@ -12,6 +14,8 @@ import { riwayatRouter } from "./routers/riwayat";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   pasien: pasienRouter,
+  task: taskRouter,
+  history: historyRouter,
   nakes: nakesRouter,
   riwayat: riwayatRouter
 });

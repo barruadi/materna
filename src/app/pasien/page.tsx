@@ -2,8 +2,7 @@ import React from "react";
 import DailyTaskList from "~/app/pasien/daily-task/task-wrapper";
 import AdsSlider from "~/app/_components/user/ads-slider";
 
-import { authConfig } from "~/server/auth/config";
-import getServerSession from "next-auth";
+import { api } from "~/trpc/server";
 
 import { auth } from "../api/auth/[...nextauth]/route";
 
@@ -12,6 +11,11 @@ const App: React.FC = async () => {
   const session = await auth();
   console.log(session);
   console.log("session", session?.user.name);
+  console.log("session", session?.user.id);
+
+  const data = await api.task.getTaskByPatientToday({
+    pasienId: session?.user.id || "cm9a1vkuc0001sbqv5wzq5i4z",
+  })
 
   return (
     <div className="grid grid-cols-1 gap-y-4 w-screen border h-fit items-start pb-12">
@@ -36,7 +40,10 @@ const App: React.FC = async () => {
       <div>
         <h2 className="font-bold text-[16px]">Kegiatan Hari Ini</h2>
         <div className="my-1 space-y-2">
-          <DailyTaskList/>
+          <DailyTaskList
+            tanggal={new Date()}
+            dailyTask={data ?? []}
+          />
         </div>
       </div>
 

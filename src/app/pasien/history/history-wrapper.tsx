@@ -6,11 +6,10 @@ import HistoryUser from "~/app/_components/user/history-user";
 
 import { HistoryUserWrapperProps } from "~/app/_types/types";
 
-import { dummyHistoryUserWrapperData } from "~/app/_data/dummy";
-
-function HistoryWrapper() {
-    const [historyData, setHistoryData] = useState<HistoryUserWrapperProps>(dummyHistoryUserWrapperData)
-
+const HistoryWrapper = ({
+    tanggal,
+    history
+}: HistoryUserWrapperProps) => {
     const formatDate = (date: Date): string => {
         const day = date.getDate();
         const month = date.toLocaleString('default', { month: 'long' });
@@ -20,16 +19,15 @@ function HistoryWrapper() {
     };
 
     return (
-        <div className="">
-
+        <div className="flex flex-col w-full">
             <div className="flex items-center">
                 <div className="w-5 h-5 bg-gray-400 rounded-full mr-2"></div>
                 <h2 className="text-lg font-semibold">    
-                    {formatDate(historyData.tanggal)}
+                    {formatDate(tanggal)}
                 </h2>
             </div>
             <div className="">
-                {historyData.history.map((history, index) => (
+                {history.map((history, index) => (
                     <HistoryUser 
                         key={index} 
                         riwayatId={history.riwayatId}

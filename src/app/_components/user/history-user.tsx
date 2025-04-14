@@ -30,7 +30,7 @@ function HistoryUser({
 
                 {/* detail */}
                 <button className="flex px-6 py-2 underline text-sm gap-2">
-                    Detail <a href={`/pasien/history/detail/${riwayatId}`}><img src="/" alt="" /><RightOutlined /></a>
+                    Detail <a href={`/pasien/history/detail/?detail=${riwayatId}`}><img src="/" alt="" /><RightOutlined /></a>
                 </button>
             </div>
 
