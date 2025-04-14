@@ -16,7 +16,8 @@ import {
   
 } from 'antd';
 import { CalendarOutlined, IdcardOutlined, MedicineBoxOutlined, PhoneOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
-import Link from "next/link";
+
+import { api } from "~/trpc/react";
 
 export default function SignupPage() {
 
@@ -24,36 +25,23 @@ export default function SignupPage() {
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const Router = useRouter();
 
-
+  const createNakesMutation = api.nakes.createNakes.useMutation();
   const handleSignup = async (values: any) => {
     setLoadingSubmit(true);
-    console.log("Form values:", values);
-
-    const response = await fetch("/api/nakes/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      const response = await createNakesMutation.mutateAsync({
         email: values.email,
-        nama: values.nama,
         password: values.password,
-        nip: values.nip,
-        kontak:  values.kontak,
+        nama: values.nama,
+        nip: Number(values.nip),
+        kontak: Number(values.kontak),
         faskesId: values.faskesId,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json(); // Tambahkan ini
-      console.error("Error response:", errorData); // Tampilkan error detail dari backend
-    } else {
-      const data = await response.json();
-      console.log("Success:", data);
+      });
+      alert("Pendaftaran berhasil!");
+      Router.push("/login?type=nakes");
+    } catch (error) {
+      console.error("Registration failed:", error);
     }
-
-    setTimeout(() => {
-      setLoadingSubmit(false); // Selesai loading sebelum redirect
-      Router.push("/login");
-    }, 3000);
   };
 
   const [faskesOptions, setFaskesOptions] = useState<SelectProps['options']>([]);
@@ -137,7 +125,7 @@ export default function SignupPage() {
                 style={{ marginBottom: 3 }}
                 rules={[
                   { required: true, message: 'Harap masukkan NIP!' },
-                  { pattern: /^\d{6}$/, message: 'NIP harus 16 digit!' }
+                  { pattern: /^\d{16}$/, message: 'NIP harus 16 digit!' }
                 ]}
                 tooltip="Nomor Induk Penduduk 16 digit"
               >

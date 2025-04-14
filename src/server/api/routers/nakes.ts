@@ -1,7 +1,9 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { differenceInYears } from "date-fns";
+import { hash } from "bcrypt";
+import { db } from "~/server/db";
 
 export const nakesRouter = createTRPCRouter({
   getCurrentNakes: protectedProcedure.query(async ({ ctx }) => {
@@ -61,7 +63,28 @@ export const nakesRouter = createTRPCRouter({
     return pasienDisplayData;
   }),
 
-  
+  createNakes: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+        password: z.string().min(6),
+        nama: z.string(),
+        nip: z.number(),
+        kontak: z.number(),
+        faskesId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const hashedPassword = await hash(input.password, 10);
+
+      // Create new user
+      return db.nakes.create({
+        data: {
+          ...input,
+          password: hashedPassword,
+        },
+      });
+    }),
 });
 
 

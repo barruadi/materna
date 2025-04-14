@@ -16,10 +16,12 @@ import {
   UserOutlined 
 } from '@ant-design/icons';
 import { api } from '~/trpc/react';
+import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
 
   const [form] = Form.useForm();
+  const router = useRouter();
 
   const createPasienMutation = api.pasien.createPasien.useMutation();
 
@@ -35,6 +37,7 @@ export default function SignupPage() {
       golonganDarah: values.GolonganDarah,
     });
     alert("Pendaftaran berhasil!");
+    router.push("/login?type=pasien");
   } catch (error) {
     console.error("Registration failed:", error);
   }
