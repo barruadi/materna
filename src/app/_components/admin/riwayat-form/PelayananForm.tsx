@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, InputNumber, Select } from 'antd';
+import SmartInput from './SmartInput';
 
 interface PelayananFormProps {
   form: any;
@@ -15,7 +16,13 @@ const PelayananForm: React.FC<PelayananFormProps> = ({ form, formData }) => {
         name={['pelayanan', 'injeksiTT']} 
         label="Injeksi TT"
       >
-        <InputNumber style={{ width: '100%' }} min={0} max={5} placeholder="Jumlah injeksi TT" />
+        <SmartInput
+          value={form.getFieldValue(['pelayanan', 'injeksiTT'])}
+          onChange={(val) => form.setFieldValue(['pelayanan', 'injeksiTT'], val)}
+          placeholder="Jumlah injeksi TT"
+          isNumber={true} 
+        />
+        {/* <InputNumber style={{ width: '100%' }} min={0} max={5} placeholder="Jumlah injeksi TT" /> */}
       </Form.Item>
       
       <Form.Item 
@@ -35,7 +42,13 @@ const PelayananForm: React.FC<PelayananFormProps> = ({ form, formData }) => {
         name={['pelayanan', 'fe']} 
         label="Fe (Tablet Besi)"
       >
-        <InputNumber style={{ width: '100%' }} min={0} placeholder="Jumlah tablet Fe" />
+        <SmartInput
+          value={form.getFieldValue(['pelayanan', 'fe'])}
+          onChange={(val) => form.setFieldValue(['pelayanan', 'fe'], val)}
+          placeholder="Jumlah tablet Fe"
+          isNumber={true} 
+        />
+        {/* <InputNumber style={{ width: '100%' }} min={0} placeholder="Jumlah tablet Fe" /> */}
       </Form.Item>
     </>
   );

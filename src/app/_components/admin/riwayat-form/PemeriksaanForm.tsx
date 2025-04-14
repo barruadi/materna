@@ -1,5 +1,8 @@
-import React from 'react';
-import { Form, Input, InputNumber, Select } from 'antd';
+import React, { useState } from 'react';
+import { Button, Form, Input, InputNumber, Select } from 'antd';
+import { AudioOutlined } from '@ant-design/icons';
+import { useSpeechToText } from '../../../utility/useSpeechToText';
+import SmartInput from './SmartInput';
 
 interface PemeriksaanFormProps {
   form: any;
@@ -7,6 +10,31 @@ interface PemeriksaanFormProps {
 }
 
 const PemeriksaanForm: React.FC<PemeriksaanFormProps> = ({ form, formData }) => {
+  const [activeField, setActiveField] = useState<string | null>(null);
+
+  const onResult = (text: string) => {
+    if (!activeField) return;
+
+    const isNumberField = ['beratBadan', 'tinggiBadan', 'tekananDarahSistole', 'tekananDarahDiastole', 'tinggiFundusUteri', 'n', 'lingkarLenganAtas', 'denyutJantungJanin', 'kepalaTerhadapPAP', 'taksiranBeratJanin'].includes(activeField);
+    const value = isNumberField ? parseFloat(text.replace(/[^\d.]/g, '')) : text;
+
+    form.setFieldValue(['pemeriksaan', activeField], value);
+  };
+
+  const { toggleListening, listening } = useSpeechToText(onResult);
+
+  const renderMic = (fieldName: string) => (
+    <Button
+      icon={<AudioOutlined />}
+      type={listening && activeField === fieldName ? 'primary' : 'default'}
+      onClick={() => {
+        setActiveField(fieldName);
+        toggleListening();
+      }}
+      shape="circle"
+    />
+  );
+
   return (
     <>
       <h1 style={{ fontSize: '24px', fontWeight: 'bold' }}>Ibu</h1>
@@ -15,7 +43,13 @@ const PemeriksaanForm: React.FC<PemeriksaanFormProps> = ({ form, formData }) => 
         name={['pemeriksaan', 'anamnesis']} 
         label="Anamnesis"
       >
-        <Input.TextArea rows={4} placeholder="Masukkan anamnesis..." />
+        <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'anamnesis'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'anamnesis'], val)}
+          placeholder="Masukkan anamnesis..."
+          isNumber={false} 
+        />
+        {/* <Input.TextArea rows={4} placeholder="Masukkan anamnesis..." /> */}
       </Form.Item>
       
       <div style={{ display: 'flex', gap: '20px' }}>
@@ -24,7 +58,13 @@ const PemeriksaanForm: React.FC<PemeriksaanFormProps> = ({ form, formData }) => 
           label="Berat Badan (kg)"
           style={{ flex: 1 }}
         >
-          <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Berat badan" />
+          <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'beratBadan'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'beratBadan'], val)}
+          placeholder="Berat badan"
+          isNumber={true} 
+        />
+          {/* <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Berat badan" /> */}
         </Form.Item>
         
         <Form.Item 
@@ -32,7 +72,13 @@ const PemeriksaanForm: React.FC<PemeriksaanFormProps> = ({ form, formData }) => 
           label="Tinggi Badan (cm)"
           style={{ flex: 1 }}
         >
-          <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Tinggi badan" />
+          <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'tinggiBadan'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'tinggiBadan'], val)}
+          placeholder="Tinggi badan"
+          isNumber={true} 
+        />
+          {/* <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Tinggi badan" /> */}
         </Form.Item>
       </div>
       
@@ -42,7 +88,13 @@ const PemeriksaanForm: React.FC<PemeriksaanFormProps> = ({ form, formData }) => 
           label="Tekanan Darah Sistole (mmHg)"
           style={{ flex: 1 }}
         >
-          <InputNumber style={{ width: '100%' }} min={0} placeholder="Sistole" />
+          <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'tekananDarahSistole'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'tekananDarahSistole'], val)}
+          placeholder="Sistole"
+          isNumber={true} 
+        />
+          {/* <InputNumber style={{ width: '100%' }} min={0} placeholder="Sistole" /> */}
         </Form.Item>
         
         <Form.Item 
@@ -50,7 +102,13 @@ const PemeriksaanForm: React.FC<PemeriksaanFormProps> = ({ form, formData }) => 
           label="Tekanan Darah Diastole (mmHg)"
           style={{ flex: 1 }}
         >
-          <InputNumber style={{ width: '100%' }} min={0} placeholder="Diastole" />
+          <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'tekananDarahDiastole'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'tekananDarahDiastole'], val)}
+          placeholder="Diastole"
+          isNumber={true} 
+        />
+          {/* <InputNumber style={{ width: '100%' }} min={0} placeholder="Diastole" /> */}
         </Form.Item>
       </div>
       
@@ -58,21 +116,39 @@ const PemeriksaanForm: React.FC<PemeriksaanFormProps> = ({ form, formData }) => 
         name={['pemeriksaan', 'tinggiFundusUteri']} 
         label="Tinggi Fundus Uteri (cm)"
       >
-        <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Tinggi fundus uteri" />
+        <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'tinggiFundusUteri'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'tinggiFundusUteri'], val)}
+          placeholder="Tinggi fundus uteri"
+          isNumber={true} 
+        />
+        {/* <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Tinggi fundus uteri" /> */}
       </Form.Item>
       
       <Form.Item 
         name={['pemeriksaan', 'n']} 
         label="N"
       >
-        <Input placeholder="Nilai N" />
+        <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'n'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'n'], val)}
+          placeholder="Nilai N"
+          isNumber={true} 
+        />
+        {/* <Input placeholder="Nilai N" /> */}
       </Form.Item>
       
       <Form.Item 
         name={['pemeriksaan', 'lingkarLenganAtas']} 
         label="Lingkar Lengan Atas (cm)"
       >
-        <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Lingkar lengan atas" />
+        <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'lingkarLenganAtas'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'lingkarLenganAtas'], val)}
+          placeholder="Lingkar lengan atas"
+          isNumber={true} 
+        />
+        {/* <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Lingkar lengan atas" /> */}
       </Form.Item>
       
       <Form.Item 
@@ -108,21 +184,39 @@ const PemeriksaanForm: React.FC<PemeriksaanFormProps> = ({ form, formData }) => 
         name={['pemeriksaan', 'denyutJantungJanin']} 
         label="Denyut Jantung Janin (per menit)"
       >
-        <InputNumber style={{ width: '100%' }} min={0} placeholder="DJJ" />
+        <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'denyutJantungJanin'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'denyutJantungJanin'], val)}
+          placeholder="DJJ"
+          isNumber={true} 
+        />
+        {/* <InputNumber style={{ width: '100%' }} min={0} placeholder="DJJ" /> */}
       </Form.Item>
       
       <Form.Item 
         name={['pemeriksaan', 'kepalaTerhadapPAP']} 
         label="Kepala Terhadap PAP"
       >
-        <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Kepala terhadap PAP" />
+         <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'kepalaTerhadapPAP'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'kepalaTerhadapPAP'], val)}
+          placeholder="Kepala terhadap PAP"
+          isNumber={true} 
+        />
+        {/* <InputNumber style={{ width: '100%' }} min={0} precision={1} placeholder="Kepala terhadap PAP" /> */}
       </Form.Item>
       
       <Form.Item 
         name={['pemeriksaan', 'taksiranBeratJanin']} 
         label="Taksiran Berat Janin (gram)"
       >
-        <InputNumber style={{ width: '100%' }} min={0} placeholder="TBJ" />
+         <SmartInput
+          value={form.getFieldValue(['pemeriksaan', 'taksiranBeratJanin'])}
+          onChange={(val) => form.setFieldValue(['pemeriksaan', 'taksiranBeratJanin'], val)}
+          placeholder="TBJ"
+          isNumber={true} 
+        />
+        {/* <InputNumber style={{ width: '100%' }} min={0} placeholder="TBJ" /> */}
       </Form.Item>
       
       <Form.Item 

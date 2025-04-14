@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Button, Popover, Space} from 'antd';
+import Link from 'next/link';
 
 const content = (
   <div>

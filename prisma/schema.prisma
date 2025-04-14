@@ -9,22 +9,24 @@ datasource db {
 }
 
 model Pasien {
-  id            String       @id @default(cuid())
-  email         String       @unique
-  nama          String
-  password      String
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  nik           Int
-  tanggalLahir  DateTime
-  fotoProfil    String?
-  golonganDarah String
-  kontak        Int
-  statusResiko  StatusResiko @default(RENDAH)
-  suamiNama     String?
-  suamiKontak   Int?
-  dailyTasks    DailyTasks[]
-  riwayat       Riwayat[]
+  id              String       @id @default(cuid())
+  email           String       @unique
+  nama            String
+  password        String
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  nik             BigInt
+  tanggalLahir    DateTime
+  fotoProfil      String?
+  golonganDarah   String
+  kontak          BigInt
+  statusResiko    StatusResiko @default(RENDAH)
+  suamiNama       String?
+  suamiKontak     Int?
+  alamat          String?
+  riwayatPenyakit String[]
+  dailyTasks      DailyTasks[]
+  riwayat         Riwayat[]
 }
 
 model Nakes {
@@ -34,9 +36,9 @@ model Nakes {
   password   String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  nip        Int
+  nip        BigInt
   fotoProfil String?
-  kontak     Int
+  kontak     BigInt
   faskesId   String
   faskes     Faskes   @relation(fields: [faskesId], references: [id])
 }
