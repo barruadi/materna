@@ -1,6 +1,6 @@
 import React from "react";
 import DailyTaskList from "~/app/pasien/daily-task/task-wrapper";
-import AdsSlider from "~/app/_components/user/ads-slider";
+import AdsSlider from "~/app/pasien/ads-slider";
 
 import { api } from "~/trpc/server";
 

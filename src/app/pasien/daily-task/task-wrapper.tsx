@@ -4,8 +4,9 @@
 import { TaskWrapperProps } from "../../_types/types";
 
 // Components
-import TaskItem from "~/app/_components/user/daily-task";
+import TaskItem from "~/app/pasien/daily-task/daily-task";
 
+// utils
 import { api } from "~/trpc/react";
 
 

@@ -1,10 +1,12 @@
-
 "use client";
 
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { 
+  FormEvent, 
+  useState, 
+  useEffect 
+} from "react";
 
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
@@ -45,7 +47,6 @@ export default function LoginPage() {
       }
     }
   }, []);
-  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4">

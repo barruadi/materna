@@ -1,7 +1,5 @@
-// src/app/_components/topbar.tsx
-"use client";
 
-import { useEffect, useState } from "react";
+"use client";
 
 type TopbarProps = {
   username: string;

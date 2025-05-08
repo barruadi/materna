@@ -1,6 +1,5 @@
 "use client"
 import React from "react";
-import { usePathname } from "next/navigation";
 
 import { HeaderUserProps } from "~/app/_types/types";
 
@@ -9,7 +8,8 @@ import { useSession } from "next-auth/react";
 import { 
   UserOutlined,
 } from "@ant-design/icons";
-import { useRouter } from "next/navigation";
+
+import { useRouter, usePathname } from "next/navigation";
 
 const HeaderUser = ({ title: propsTitle }: HeaderUserProps) => {
   const { data: session } = useSession();
@@ -34,7 +34,7 @@ const HeaderUser = ({ title: propsTitle }: HeaderUserProps) => {
   
   const title = propsTitle || (lastSegment ? formatTitle(lastSegment) : null);
   return (
-    <div className="fixed top-0 w-full z-50 bg-amber-50 flex flex-row items-center p-2 px-4 rounded-xl border-none h-20 justify-between">
+    <div className="sticky top-0 w-full z-50 bg-amber-50 flex flex-row items-center p-2 px-4 rounded-xl border-none h-20 justify-between">
       {!title && (
         <>
           <div className="flex items-center space-x-4 flex-grow">

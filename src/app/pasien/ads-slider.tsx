@@ -5,11 +5,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import AdsCard from "./ads-card";
 
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 
-// Add custom styles for pagination
 import { useEffect } from "react";
 
 interface ProductAd {
@@ -18,6 +16,7 @@ interface ProductAd {
   productName: string;
 }
 
+// dummy data
 const productAds: ProductAd[] = [
   { id: 1, imageUrl: "/logo.svg", productName: "Product A" },
   { id: 2, imageUrl: "/user-image.png", productName: "Product B" },
@@ -25,7 +24,6 @@ const productAds: ProductAd[] = [
 ];
 
 const AdsSlider: FC = () => {
-  // Add custom CSS for pagination bullets
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -48,8 +46,8 @@ const AdsSlider: FC = () => {
   return (
     <div className="relative w-full">
       <Swiper
-        spaceBetween={1} // Reduced space between slides
-        slidesPerView={2.7} // Increased slides per view to show more products
+        spaceBetween={1} 
+        slidesPerView={2.7}
         pagination={{ 
           clickable: true,
           el: '.custom-pagination',
@@ -64,7 +62,6 @@ const AdsSlider: FC = () => {
         ))}
       </Swiper>
       
-      {/* Custom Pagination Container with more space */}
       <div className="custom-pagination my-3 gap-x-1 flex justify-center"></div>
     </div>
   );
