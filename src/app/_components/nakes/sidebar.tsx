@@ -8,8 +8,8 @@ export default function SidebarDesktop() {
   const pathname = usePathname();
 
   const menu = [
-    { label: "Dashboard", icon: <Home size={20} />, href: "/admin" },
-    { label: "Daftar Pasien", icon: <List size={20} />, href: "/admin/list-pasien" },
+    { label: "Dashboard", icon: <Home size={20} />, href: "/nakes" },
+    { label: "Daftar Pasien", icon: <List size={20} />, href: "/nakes/list-pasien" },
   ];
 
   return (

@@ -19,8 +19,8 @@ function TaskItem ({
         }
       </button>
       <div className="flex flex-col">
-        <span className={`text-black font-medium ${isChecked ? "opacity-50" : ""}`}>{title}</span>
-        <span className={`text-gray-500 text-sm ${isChecked ? "opacity-50" : ""}`}>{description}</span>
+        <span className={`text-black text-[13px] ${isChecked ? "opacity-50" : ""}`}>{title}</span>
+        <span className={`text-gray-500 text-[10px] ${isChecked ? "opacity-50" : ""}`}>{description}</span>
       </div>
     </div>
   );

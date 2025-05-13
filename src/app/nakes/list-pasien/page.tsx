@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { Space, Table, Tag, Divider, Layout, Input, Spin, Breadcrumb } from "antd";
 import type { TableProps } from "antd";
-import DeleteButton from "~/app/_components/admin/delete-button";
-import AddPatientButton from "~/app/_components/admin/add-patient-button";
-import SidebarDesktop from "~/app/_components/admin/sidebar";
-import Topbar from "~/app/_components/admin/topbar";
+import DeleteButton from "~/app/_components/nakes/delete-button";
+import AddPatientButton from "~/app/_components/nakes/add-patient-button";
+import SidebarDesktop from "~/app/_components/nakes/sidebar";
+import Topbar from "~/app/_components/nakes/topbar";
 import { api } from "~/trpc/react";
 import { useSession } from "next-auth/react";
 
@@ -151,10 +151,8 @@ const ListPasien: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
 
   const { data: session } = useSession();
-  console.log("ini session",session);
 
   const userId = session?.user?.id;
-  console.log("User ID:", userId);
 
   const { data: pasienData, isLoading: isLoadingPasien } = api.nakes.getPasienDariRiwayat.useQuery();
 

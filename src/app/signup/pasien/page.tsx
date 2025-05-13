@@ -7,6 +7,7 @@ import {
   Select,
   Divider,
 } from 'antd';
+
 import { 
   CalendarOutlined, 
   IdcardOutlined, 
@@ -15,6 +16,7 @@ import {
   TeamOutlined, 
   UserOutlined 
 } from '@ant-design/icons';
+
 import { api } from '~/trpc/react';
 import { useRouter } from 'next/navigation';
 
@@ -32,7 +34,7 @@ export default function SignupPage() {
       password: values.Password,
       nama: values.Nama,
       nik: Number(values.NIK),
-      tanggalLahir: values.TanggalLahir.format("YYYY-MM-DD"), // Format ISO (YYYY-MM-DD)
+      tanggalLahir: values.TanggalLahir.format("YYYY-MM-DD"),
       kontak: Number(values.Kontak),
       golonganDarah: values.GolonganDarah,
     });
@@ -42,7 +44,6 @@ export default function SignupPage() {
     console.error("Registration failed:", error);
   }
   };
-
 
   const OpsiGolDar = [
     { value: 'A', label: 'A' },

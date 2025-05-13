@@ -7,8 +7,8 @@ import Link from 'next/link';
 const content = (
   <div>
     <Space direction='vertical'>
-        <Button className='bg-[#FFD96C] border-0 hover:border-[.5px]' href='/admin/tambah-pasien?session=desktop'>Masukkan Manual</Button>
-        <Button className='bg-[#FFD96C] border-0 hover:border-[.5px]' href='/admin/show-qr'>Gunakan QR Code</Button>
+        <Button className='bg-[#FFD96C] border-0 hover:border-[.5px]' href='/nakes/tambah-pasien?session=desktop'>Masukkan Manual</Button>
+        <Button className='bg-[#FFD96C] border-0 hover:border-[.5px]' href='/nakes/show-qr'>Gunakan QR Code</Button>
     </Space>
   </div>
 );

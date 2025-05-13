@@ -1,17 +1,19 @@
 import React from "react";
 import DailyTaskList from "~/app/pasien/daily-task/task-wrapper";
-import AdsSlider from "~/app/_components/user/ads-slider";
+import AdsSlider from "../_components/user/ads-slider";
 
 import { api } from "~/trpc/server";
 
 import { auth } from "~/server/auth";
+
+import tasks from "~/app/pasien/daily-task/_dummy-task.json"
 
 const App: React.FC = async () => {
   
   const session = await auth();
 
   const data = await api.task.getTaskByPatientToday({
-    pasienId: session?.user.id || "",
+    pasienId: session?.user.id || "prototipe",
   })
 
   return (
@@ -39,7 +41,7 @@ const App: React.FC = async () => {
         <div className="my-1 space-y-2">
           <DailyTaskList
             tanggal={new Date()}
-            dailyTask={data ?? []}
+            dailyTask={tasks}
           />
         </div>
       </div>

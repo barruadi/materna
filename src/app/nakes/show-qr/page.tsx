@@ -44,7 +44,7 @@ export default function ShowQR() {
 
         // Show data for 2 seconds before redirecting
         setTimeout(() => {
-          router.push(`/admin/tambah-pasien?session=${sessionId}`);
+          router.push(`/nakes/tambah-pasien?session=${sessionId}`);
         }, 2000);
       }
     }, 2000);
