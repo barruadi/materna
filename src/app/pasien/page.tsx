@@ -1,6 +1,6 @@
 import React from "react";
 import DailyTaskList from "~/app/pasien/daily-task/task-wrapper";
-import AdsSlider from "~/app/pasien/ads-slider";
+import AdsSlider from "../_components/user/ads-slider";
 
 import { api } from "~/trpc/server";
 
@@ -11,7 +11,7 @@ const App: React.FC = async () => {
   const session = await auth();
 
   const data = await api.task.getTaskByPatientToday({
-    pasienId: session?.user.id || "",
+    pasienId: session?.user.id || "prototipe",
   })
 
   return (

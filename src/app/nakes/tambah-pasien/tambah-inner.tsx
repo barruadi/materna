@@ -11,8 +11,8 @@ import {
   Card,
   Divider,
 } from 'antd';
-import Topbar from '~/app/_components/admin/topbar';
-import SidebarDesktop from '~/app/_components/admin/sidebar';
+import Topbar from '~/app/_components/nakes/topbar';
+import SidebarDesktop from '~/app/_components/nakes/sidebar';
 import { CalendarOutlined, IdcardOutlined, MedicineBoxOutlined, PhoneOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import { useSearchParams } from 'next/navigation';
 import dayjs from 'dayjs';

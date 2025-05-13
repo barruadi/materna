@@ -31,7 +31,7 @@ export default function LoginPage() {
             console.log("Login pasien success");
             router.push("/pasien");
         } else if (type === "nakes") {
-            router.push("/admin");
+            router.push("/nakes");
         }
     }
 }
@@ -69,7 +69,7 @@ export default function LoginPage() {
         Login
       </button>
       <span className="text-sm">Belum punya akun? <a 
-          href={`/signup-${type}`}
+          href={`/signup/${type}`}
           className="font-bold text-[#de665b] underline"
         >
             Daftar di sini!</a></span>
