@@ -6,13 +6,14 @@ import { api } from "~/trpc/react";
 import DailyTaskList from "./task-wrapper";
 import { DailyTaskProps } from "~/app/_types/types";
 
+import tasks from "~/app/pasien/daily-task/_dummy-task.json"
 
 function DailyTasksPage () {
 
   const {data: session} = useSession();
 
   const { data: groupedTasks, isLoading } = api.task.getTasksByPatient.useQuery({
-    pasienId: session?.user?.id || "",
+    pasienId: session?.user?.id || "prototipe",
   });
 
   if (groupedTasks === undefined) {
@@ -23,16 +24,16 @@ function DailyTasksPage () {
     )
   }
 
-  const dailyTask: DailyTaskProps[] = groupedTasks[0]?.dailyTask ?? [];
+  const dailyTask: DailyTaskProps[] = tasks;
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full h-screen">
       {dailyTask.length !== 0 &&
-        groupedTasks.map((item, index) => {
+        tasks.map((item, index) => {
           return (
             <DailyTaskList
             key={index}
-            tanggal={item.tanggal}
-            dailyTask={item.dailyTask}
+            tanggal={new Date}
+            dailyTask={tasks}
             />
           )
         })
