@@ -2,7 +2,6 @@
 
 
 import React from "react";
-import { api } from "~/trpc/server";
 
 import { useRouter } from "next/navigation";
 import type { CSSProperties } from 'react';
@@ -64,7 +63,7 @@ const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelSt
 ];
   
 
-async function DetailPage() {
+function DetailPage() {
     // const riwayatId = await props?.params?.then((params) => params.id);
 
     // const data = await api.history.getHistoryDetailById({
