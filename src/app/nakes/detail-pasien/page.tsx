@@ -1,11 +1,11 @@
 'use client';
 
-import { DetailPasien } from "../../_components/admin/detailpasien";
-import HistoryCard from "../../_components/admin/historycard";
-import NameCard from "../../_components/admin/namecard";
-import SidebarDesktop from "../../_components/admin/sidebar";
-import { Suami } from "../../_components/admin/suami";
-import Topbar from "../../_components/admin/topbar";
+import { DetailPasien } from "../../_components/nakes/detailpasien";
+import HistoryCard from "../../_components/nakes/historycard";
+import NameCard from "../../_components/nakes/namecard";
+import SidebarDesktop from "../../_components/nakes/sidebar";
+import { Suami } from "../../_components/nakes/suami";
+import Topbar from "../../_components/nakes/topbar";
 import { Col, Row } from 'antd';
 
 export default function NakesPage() {

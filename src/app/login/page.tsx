@@ -1,10 +1,12 @@
-
 "use client";
 
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { 
+  FormEvent, 
+  useState, 
+  useEffect 
+} from "react";
 
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
@@ -29,7 +31,7 @@ export default function LoginPage() {
             console.log("Login pasien success");
             router.push("/pasien");
         } else if (type === "nakes") {
-            router.push("/admin");
+            router.push("/nakes");
         }
     }
 }
@@ -45,7 +47,6 @@ export default function LoginPage() {
       }
     }
   }, []);
-  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
@@ -68,7 +69,7 @@ export default function LoginPage() {
         Login
       </button>
       <span className="text-sm">Belum punya akun? <a 
-          href={`/signup-${type}`}
+          href={`/signup/${type}`}
           className="font-bold text-[#de665b] underline"
         >
             Daftar di sini!</a></span>

@@ -4,15 +4,15 @@
 import React, { useState } from 'react';
 import { Form, Button, Steps, message, Card, Spin } from 'antd';
 import { ArrowLeftOutlined, ArrowRightOutlined, SendOutlined } from '@ant-design/icons';
-import PemeriksaanForm from '../../_components/admin/riwayat-form/PemeriksaanForm';
-import PelayananForm from '../../_components/admin/riwayat-form/PelayananForm';
-import LaboratoriumForm from '../../_components/admin/riwayat-form/LaboratoriumForm';
-import IntegrasiForm from '../../_components/admin/riwayat-form/IntegrasiForm';
-import RujukanForm from '../../_components/admin/riwayat-form/RujukanForm';
-import LainnyaForm from '~/app/_components/admin/riwayat-form/LainnyaForm';
-import RiwayatBasicForm from '../../_components/admin/riwayat-form/RiwayatBasicForm';
-import Topbar from '../../_components/admin/topbar';
-import SidebarDesktop from '../../_components/admin/sidebar';
+import PemeriksaanForm from '../../_components/nakes/riwayat-form/PemeriksaanForm';
+import PelayananForm from '../../_components/nakes/riwayat-form/PelayananForm';
+import LaboratoriumForm from '../../_components/nakes/riwayat-form/LaboratoriumForm';
+import IntegrasiForm from '../../_components/nakes/riwayat-form/IntegrasiForm';
+import RujukanForm from '../../_components/nakes/riwayat-form/RujukanForm';
+import LainnyaForm from '~/app/_components/nakes/riwayat-form/LainnyaForm';
+import RiwayatBasicForm from '../../_components/nakes/riwayat-form/RiwayatBasicForm';
+import Topbar from '../../_components/nakes/topbar';
+import SidebarDesktop from '../../_components/nakes/sidebar';
 import { useRouter } from 'next/navigation';
 
 const { Step } = Steps;
@@ -122,7 +122,7 @@ const RiwayatForm: React.FC = () => {
         form.resetFields();
         setFormData({});
         // setCurrentStep(0);
-        router.push('/admin');
+        router.push('/nakes');
       } else {
         message.error(`Gagal menyimpan data: ${result.message || 'Terjadi kesalahan'}`);
       }

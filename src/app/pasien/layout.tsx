@@ -1,31 +1,31 @@
-import React, { ReactNode } from "react";
-import Layout, { Header, Content, Footer } from "antd/es/layout/layout";
+import React from "react";
+
+import { Content } from "antd/es/layout/layout";
+
 import HeaderUser from "../_components/user/header-user";
-import { NavbarUser } from "../_components/user/navbar-user";
+import NavbarUser from "../_components/user/navbar-user";
 
-// Define Type for Props
-interface LayoutProps {
-  children: ReactNode;
-}
+export default function UserLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
 
-const UserLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <Layout className="min-h-screen flex flex-col">
-      {/* TODO: remove header padding and move HeaderUesr to Header as child */}
-      <Header style={{
-        backgroundColor: "white",
-      }}/> 
-      <HeaderUser/>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-[375px] h-full bg-white shadow-lg overflow-hidden flex flex-col mt-20 mb-16">
+        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[375px] z-50 flex items-center h-20 justify-between">
+          <HeaderUser/>
+        </div>
 
-      {/* Main Content (Dynamic via children) */}
-      <Content className="flex-grow p-4 bg-white flex overflow-y-auto scrollbar-none">
-        {children}
-      </Content>
+        <Content className="flex-grow p-4 bg-white flex overflow-y-auto scrollbar-none">
+          {children}
+        </Content>
 
-      {/* Footer */}
-      <NavbarUser/>
-    </Layout>
+        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[375px] z-50 flex items-center h-20 justify-between">
+          <NavbarUser/>
+        </div>
+      </div>
+    </div>
   );
-};
-
-export default UserLayout;
+}

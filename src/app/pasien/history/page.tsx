@@ -3,7 +3,9 @@ import { api } from "~/trpc/server";
 import { auth } from "~/server/auth";
 
 import HistoryWrapper from "./history-wrapper";
-import { HistoryUserProps } from "~/app/_types/types";
+import { HistoryUserProps, HistoryUserWrapperProps } from "~/app/_types/types";
+
+import histories from "./_dummy-history.json"
 
 async function HistoryPage() {
     const session = await auth();
@@ -23,10 +25,18 @@ async function HistoryPage() {
     }
 
     const history: HistoryUserProps[] = data[0]?.history ?? [];
+
+    // dummy data
+    const parsedData: HistoryUserWrapperProps[] = histories.map(item => ({
+        ...item,
+        tanggal: new Date(item.tanggal),
+      }));
+
+
     return (
-        <div className="flex flex-col w-full">
-        {history.length !== 0 && 
-            data.map((item, index) => {
+        <div className="flex flex-col w-full h-screen">
+        {parsedData.length !== 0 && 
+            parsedData.map((item, index) => {
                 return (
                     <HistoryWrapper
                         key={index}

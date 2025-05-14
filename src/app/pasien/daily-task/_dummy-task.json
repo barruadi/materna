@@ -1,0 +1,20 @@
+[
+    {
+      "id": "task-001",
+      "title": "Minum Vitamin",
+      "description": "Konsumsi suplemen prenatal sesuai anjuran dokter.",
+      "status": false
+    },
+    {
+      "id": "task-002",
+      "title": "Minum Air Putih Minimal 8 Gelas",
+      "description": "Jaga hidrasi dengan target minimal 2 liter air setiap hari.",
+      "status": true
+    },
+    {
+      "id": "task-003",
+      "title": "Latihan pernapasan",
+      "description": "Latihan napas dalam untuk persiapan persalinan.",
+      "status": false
+    }
+]

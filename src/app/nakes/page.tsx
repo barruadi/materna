@@ -7,8 +7,8 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Card, Row, Col, Statistic, Table, Button, Space, Badge, Avatar, Divider } from 'antd';
 import { UserOutlined, TeamOutlined, CalendarOutlined, HeartOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
-import SidebarDesktop from '../_components/admin/sidebar';
-import Topbar from '../_components/admin/topbar';
+import SidebarDesktop from '../_components/nakes/sidebar';
+import Topbar from '../_components/nakes/topbar';
 import Link from 'next/link';
 
 import { addMonths, differenceInYears, isAfter, isBefore } from "date-fns";
@@ -29,9 +29,9 @@ type PasienDisplayData = {
 };
 
 const NakesDashboard: React.FC = () => {
-  const { data: session, status } = useSession(); // ✅ Perubahan: ambil status dari session
+  const { data: session, status } = useSession();
 
-  const userId = session?.user?.id;
+  const userId = session?.user?.id || "prototipe";
 
   const { data: nakes, isLoading: nakesLoading } = api.nakes.getCurrentNakes.useQuery();
 
@@ -40,11 +40,11 @@ const NakesDashboard: React.FC = () => {
     isLoading: riwayatLoading,
     error,
   } = api.nakes.getPasienDariRiwayat.useQuery(undefined, {
-    enabled: status === 'authenticated', // ✅ Perubahan: hanya fetch jika session ready
+    enabled: status === 'authenticated',
   });
 
   useEffect(() => {
-    if (error) console.error('Error getPasienDariRiwayat:', error); // ✅ Tambahan debug
+    if (error) console.error('Error getPasienDariRiwayat:', error);
   }, [error]);
 
   const formattedPasienData: PasienDisplayData[] = (pasienData ?? []).map((pasien) => {
@@ -161,16 +161,16 @@ const NakesDashboard: React.FC = () => {
                 </Col>
                 <Col>
                   <Title level={4} style={{ margin: 0 }}>
-                    {nakes?.nama || 'Loading...'}
+                    {nakes?.nama || 'Guest'}
                   </Title>
                   <Text type="secondary">
-                    {nakes?.faskes.namaFaskes || 'Loading...'} | NIP: {nakes?.nip || 'Loading...'}
+                    {nakes?.faskes.namaFaskes || 'Puskesmas Bandung'} | NIP: {nakes?.nip || '123456789'}
                   </Text>
                 </Col>
               </Row>
             </Col>
             <Col>
-              <Link href="/admin/riwayat-form" passHref>
+              <Link href="/nakes/riwayat-form" passHref>
                 <Button type="primary" style={{ backgroundColor: '#ffd96c', borderColor: '#ffd96c', color: '#000' }}>
                   Tambah kunjungan
                 </Button>

@@ -1,0 +1,47 @@
+[
+    {
+      "tanggal": "2025-05-13T00:00:00.000Z",
+      "history": [
+        {
+          "riwayatId": "rwyt-001",
+          "faskes": "faskes-01",
+          "nakes": "nakes-01",
+          "resiko": "rendah"
+        },
+        {
+          "riwayatId": "rwyt-002",
+          "faskes": "faskes-02",
+          "nakes": "nakes-02",
+          "resiko": "rendah"
+        }
+      ]
+    },
+    {
+      "tanggal": "2025-05-11T00:00:00.000Z",
+      "history": [
+        {
+          "riwayatId": "rwyt-003",
+          "faskes": "faskes-01",
+          "nakes": "nakes-03",
+          "resiko": "rendah"
+        }
+      ]
+    },
+    {
+      "tanggal": "2025-04-28T00:00:00.000Z",
+      "history": [
+        {
+          "riwayatId": "rwyt-004",
+          "faskes": "faskes-03",
+          "nakes": "nakes-01",
+          "resiko": "rendah"
+        },
+        {
+          "riwayatId": "rwyt-005",
+          "faskes": "faskes-02",
+          "nakes": "nakes-02",
+          "resiko": "rendah"
+        }
+      ]
+    }
+  ]

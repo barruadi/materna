@@ -6,7 +6,7 @@ import Link from "next/link";
 
 
 
-export const NavbarUser = () => {
+const NavbarUser = () => {
   const [activeTab, setActiveTab] = useState<string>("home");
 
   const menuItems = [
@@ -16,7 +16,7 @@ export const NavbarUser = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 w-full pt-3 pb-2 shadow-lg bg-amber-50 z-10 text-[10px]">
+    <nav className="bottom-0 w-full pt-3 pb-2 shadow-lg bg-amber-50 z-10 text-[10px]">
       <div className="grid grid-cols-3 w-full px-4">
         {menuItems.map((item) => (
           <Link
@@ -42,3 +42,5 @@ export const NavbarUser = () => {
     </nav>
   );
 };
+
+export default NavbarUser;

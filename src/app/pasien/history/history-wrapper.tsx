@@ -26,7 +26,7 @@ const HistoryWrapper = ({
                     {formatDate(tanggal)}
                 </h2>
             </div>
-            <div className="">
+            <div className="mb-4">
                 {history.map((history, index) => (
                     <HistoryUser 
                         key={index} 

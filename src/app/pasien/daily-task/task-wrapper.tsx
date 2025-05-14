@@ -4,8 +4,9 @@
 import { TaskWrapperProps } from "../../_types/types";
 
 // Components
-import TaskItem from "~/app/_components/user/daily-task";
+import TaskItem from "~/app/pasien/daily-task/daily-task";
 
+// utils
 import { api } from "~/trpc/react";
 
 
@@ -47,7 +48,7 @@ const DailyTaskList = ({
   return (
     <div className="w-full space-y-2 pt-4">
       <div className="flex flex-col">
-        <h2 className="text-lg font-semibold">{formatDate(tanggal)}</h2>
+        <h2 className="text-xl font-semibold">{formatDate(tanggal)}</h2>
       </div>
       <div className="space-y-2">
         {dailyTask.map((task, index) => (

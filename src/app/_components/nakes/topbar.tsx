@@ -1,7 +1,4 @@
-// src/app/_components/topbar.tsx
 "use client";
-
-import { useEffect, useState } from "react";
 
 type TopbarProps = {
   username: string;
@@ -18,8 +15,8 @@ export default function Topbar({ username }: TopbarProps) {
         <button className="text-lg"><i className="lucide lucide-help-circle" /></button>
         <button className="text-lg"><i className="lucide lucide-bell" /></button>
         <div className="flex items-center gap-2">
-          <img src="/profile.svg" alt="Profile" className="h-8 rounded-full" />
-          <span className="text-sm">{username}</span>
+          {/* <img src="/profile.svg" alt="Profile" className="h-8 rounded-full" />
+          <span className="text-sm">{username}</span> */}
         </div>
       </div>
     </div>
