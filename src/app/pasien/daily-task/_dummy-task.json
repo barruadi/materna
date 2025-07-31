@@ -1,4 +1,5 @@
 [
+  [
     {
       "id": "task-001",
       "title": "Minum Vitamin",
@@ -17,4 +18,45 @@
       "description": "Latihan napas dalam untuk persiapan persalinan.",
       "status": false
     }
+  ],
+  [
+    {
+      "id": "task-004",
+      "title": "Jalan Santai Pagi",
+      "description": "Lakukan jalan kaki ringan selama 20-30 menit.",
+      "status": false
+    },
+    {
+      "id": "task-005",
+      "title": "Makan Buah dan Sayur",
+      "description": "Pastikan mengonsumsi buah dan sayuran setiap hari.",
+      "status": false
+    },
+    {
+      "id": "task-006",
+      "title": "Pemeriksaan Kehamilan",
+      "description": "Jadwalkan kontrol rutin ke dokter.",
+      "status": false
+    }
+  ],
+  [
+    {
+      "id": "task-007",
+      "title": "Mendengarkan Musik Relaksasi",
+      "description": "Dengarkan musik yang menenangkan demi kesehatan mental.",
+      "status": false
+    },
+    {
+      "id": "task-008",
+      "title": "Mencatat Perkembangan Janin",
+      "description": "Tuliskan perubahan yang dirasakan untuk referensi dokter.",
+      "status": false
+    },
+    {
+      "id": "task-009",
+      "title": "Tidur Siang Singkat",
+      "description": "Istirahat sejenak di siang hari untuk menjaga energi.",
+      "status": false
+    }
+  ]
 ]

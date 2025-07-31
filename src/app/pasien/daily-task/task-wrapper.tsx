@@ -12,7 +12,8 @@ import { api } from "~/trpc/react";
 
 const DailyTaskList = ({
   tanggal,
-  dailyTask
+  dailyTask,
+  onHomePage
 }: TaskWrapperProps) => {
   const { mutate: toggleTaskStatus, error } = api.task.setTaskStatus.useMutation();
 
@@ -47,9 +48,11 @@ const DailyTaskList = ({
 
   return (
     <div className="w-full space-y-2 pt-4">
-      <div className="flex flex-col">
-        <h2 className="text-xl font-semibold">{formatDate(tanggal)}</h2>
-      </div>
+      { !onHomePage &&
+        <div className="flex flex-col">
+          <h2 className="text-md font-semibold">{formatDate(tanggal)}</h2>
+        </div>
+      }
       <div className="space-y-2">
         {dailyTask.map((task, index) => (
           <TaskItem 

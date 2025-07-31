@@ -24,16 +24,22 @@ function DailyTasksPage () {
     )
   }
 
-  const dailyTask: DailyTaskProps[] = tasks;
+  const dailyTask: DailyTaskProps[][] = tasks;
   return (
     <div className="flex flex-col w-full h-screen">
       {dailyTask.length !== 0 &&
         tasks.map((item, index) => {
+
+          const today = new Date();
+          const date = new Date(today);
+          date.setDate(today.getDate() - index);
+
           return (
             <DailyTaskList
             key={index}
-            tanggal={new Date}
-            dailyTask={tasks}
+            tanggal={date}
+            dailyTask={tasks[index]}
+            onHomePage={false}
             />
           )
         })

@@ -19,13 +19,10 @@ const RiwayatBasicForm: React.FC<RiwayatBasicFormProps> = ({ form, formData }) =
   const [loadingFaskes, setLoadingFaskes] = useState(false);
 
   const { data: session } = useSession();
-  console.log("ini session",session);
 
   const userId = session?.user?.id;
-  console.log("User ID:", userId);
 
   const { data: tenakes, isLoading: nakesLoading } = api.nakes.getCurrentNakes.useQuery();
-  console.log("nakesss", tenakes);
 
   useEffect(() => {
     // Fetch pasien data
@@ -53,12 +50,9 @@ const RiwayatBasicForm: React.FC<RiwayatBasicFormProps> = ({ form, formData }) =
       try {
         const response = await fetch('/api/riwayat/nakes');
         const result = await response.json();
-        console.log("result api/riwayat/nakes", result);
         
         if (result.success) {
           const filtered = result.data.find((nakes: any) => nakes.value === tenakes?.id);
-          console.log("nakes id untuk filter", tenakes?.id);
-          console.log("filtered nakes", filtered);
           setNakesOptions([{label: tenakes?.nama, value: tenakes?.id}]);
         } else {
           console.error('Failed to load nakes data:', result.message);

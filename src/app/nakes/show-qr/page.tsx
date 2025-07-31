@@ -24,11 +24,25 @@ export default function ShowQR() {
   const router = useRouter();
 
   useEffect(() => {
-    const id = uuidv4();
+    let id = sessionStorage.getItem('sessionId');
+    if (!id) {
+      id = uuidv4();
+      sessionStorage.setItem('sessionId', id);
+    }
+
     setSessionId(id);
-    QRCode.toDataURL(`${window.location.origin}/mobile?session=${id}`)
-      .then(setQr)
-      .catch(console.error);
+
+    const existingQr = sessionStorage.getItem('qr');
+    if (existingQr) {
+      setQr(existingQr);
+    } else {
+      QRCode.toDataURL(`${window.location.origin}/mobile?session=${id}`)
+        .then((url) => {
+          setQr(url);
+          sessionStorage.setItem('qr', url);
+        })
+        .catch(console.error);
+    }
   }, []);
 
   useEffect(() => {

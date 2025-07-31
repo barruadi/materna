@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Card, Row, Col, Statistic, Table, Button, Space, Badge, Avatar, Divider } from 'antd';
 import { UserOutlined, TeamOutlined, CalendarOutlined, HeartOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
+import { useRouter } from 'next/navigation';
 import SidebarDesktop from '../_components/nakes/sidebar';
 import Topbar from '../_components/nakes/topbar';
 import Link from 'next/link';
@@ -42,6 +43,8 @@ const NakesDashboard: React.FC = () => {
   } = api.nakes.getPasienDariRiwayat.useQuery(undefined, {
     enabled: status === 'authenticated',
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     if (error) console.error('Error getPasienDariRiwayat:', error);
@@ -122,7 +125,9 @@ const NakesDashboard: React.FC = () => {
       key: 'aksi',
       render: (_: any, record: PasienDisplayData) => (
         <Space size="middle">
-          <Button type="link" size="small">
+          <Button type="link" size="small"
+            onClick={() => router.push('/nakes/detail')}
+          >
             Detail
           </Button>
         </Space>

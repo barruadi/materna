@@ -14,6 +14,7 @@ export interface TaskWrapperProps {
         description: string;
         status: boolean;
     } [];
+    onHomePage: boolean;
 };
 
 export interface DailyTaskProps {

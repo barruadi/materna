@@ -10,7 +10,7 @@ interface AdsCardProps {
 const AdsCard: React.FC<AdsCardProps> = ({ imageUrl, productName }) => {
   return (
     <div className="relative w-24 h-24 rounded-xl bg-[#FFFCE1] shadow-lg overflow-hidden flex flex-col justify-between">
-      <div className="absolute top-1 right-1 bg-white px-2 py-0.5 text-[10px] font-medium rounded-full shadow">
+      <div className="opacity-50 absolute top-1 right-1 bg-white px-2 py-0.5 text-[10px] font-medium rounded-full shadow">
         Ads
       </div>
 

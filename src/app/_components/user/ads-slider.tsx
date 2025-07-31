@@ -18,9 +18,9 @@ interface ProductAd {
 
 // dummy data
 const productAds: ProductAd[] = [
-  { id: 1, imageUrl: "/logo.svg", productName: "Product A" },
-  { id: 2, imageUrl: "/user-image.png", productName: "Product B" },
-  { id: 3, imageUrl: "/logo.svg", productName: "Product C" },
+  { id: 1, imageUrl: "/vitamin.png", productName: "Vitamin" },
+  { id: 2, imageUrl: "/skincare.png", productName: "SkinCare" },
+  { id: 3, imageUrl: "/shampoo.png", productName: "Shampoo" },
 ];
 
 const AdsSlider: FC = () => {
