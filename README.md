@@ -21,4 +21,4 @@ Team RNB
 - Barru Adi Utomo
 
 ## Disclaimer
-This project and all its contents are the property of RNB.
+This project and all its contents are the property of RNB. 
